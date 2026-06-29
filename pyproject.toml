@@ -1,0 +1,25 @@
+[project]
+name = "mathpie-tools"
+version = "0.1.0"
+description = "Build-time content generation tooling for the MathPie static web app (problem banks, encouragement copy). The app itself is static HTML/JS and needs none of this at runtime."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = [
+    "anthropic>=0.40",   # build-time problem/encouragement generation
+    "python-dotenv>=1.0", # load ANTHROPIC_API_KEY from a local .env
+    "pillow>=10.0",       # generate PWA icons (icon-192/512.png) from icon.svg
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+# Tooling lives in tools/; the static app (index.html, content/*.json, sw.js) is not a Python package.
+[tool.setuptools]
+py-modules = []
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
