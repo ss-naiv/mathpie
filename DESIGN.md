@@ -86,7 +86,9 @@ mathpie/
     problems.json       # problem bank (data-driven; see §5 schema)
     encouragement.json  # mascot lines, success/“let’s look again” copy
   tools/
-    gen_problems.py     # BUILD-TIME ONLY (Python): uses Anthropic API to expand problem bank → problems.json
+    gen_problems.py     # BUILD-TIME ONLY (Python CLI): expand/rebalance problem banks via Anthropic API
+  server/               # PHASE 4 ONLY: Python/FastAPI live-tutor proxy (holds key; text-only; streams)
+    README.md           # plan + guardrails; deps are the `tutor` extra in pyproject.toml
   tests.js              # logic tests (mirror caltrain-quick/tests.js style)
   README.md
   CLAUDE.md             # build/deploy notes for future sessions
@@ -243,10 +245,15 @@ map, shopping) cut across skills so the same idea shows up in different real-wor
   value. (Toolchain: venv + `pyproject.toml`; see README.)
 - **Optional live tutor (Phase 4, "talk me through it" button):** when canned hints don't land, call
   Claude for a fresh Socratic nudge. Because a public static site can't hold a secret key, this
-  requires a **tiny serverless proxy** (Cloudflare Worker / Vercel function) that holds the key and
-  forwards requests. Prompt it to *never give the final answer* — only one nudge at a time, warm tone,
-  kid-appropriate. Gate it (e.g., only after 2 failed hint levels) to control cost. Build only if the
-  static hint ladders prove insufficient in real use.
+  requires a **tiny proxy** that holds the key and forwards requests. **Decided: Python / FastAPI**
+  (chosen for token streaming — replies render word-by-word, the main "feels fast" win), hosted
+  scale-to-zero (Vercel Python function or Fly.io). **Voice is client-side** (browser Web Speech API:
+  `SpeechSynthesis` + `SpeechRecognition`), so the proxy stays text-only and tiny. Prompt it to
+  *never give the final answer* — one nudge at a time, warm, kid-appropriate. Gate it (only after ≥2
+  failed hint levels) to control cost; lock CORS to the Pages origin; rate-limit. Deps live as the
+  `tutor` extra in `pyproject.toml` (not installed until built). Build only if the static hint ladders
+  prove insufficient in real use. See `server/README.md`. iOS Safari caveat: speech *recognition* is
+  patchier than synthesis — provide a tap-to-type fallback.
 
 ---
 

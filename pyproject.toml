@@ -15,6 +15,15 @@ dependencies = [
 dev = [
     "pytest>=8.0",
 ]
+# Phase 4 live-tutor proxy. DECLARED, not installed by default — keeps the venv light until the
+# tutor is actually built. Install with: pip install -e ".[tutor]"
+# FastAPI chosen for token streaming (tutor replies appear word-by-word = feels fast). Voice is
+# handled client-side in the browser (Web Speech API), so this proxy stays text-only and tiny.
+tutor = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.29",
+    "httpx>=0.27",
+]
 
 # Tooling lives in tools/; the static app (index.html, content/*.json, sw.js) is not a Python package.
 [tool.setuptools]
