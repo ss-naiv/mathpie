@@ -26,9 +26,31 @@ Five diagnosed failure modes (every mechanic below maps to one or more):
 | **P3** | **No reasonableness sense** — order-of-magnitude-wrong answers don't trigger alarm | "2 cents" tip never felt absurd |
 | **P4** | **Fractions not seen as ONE concept** with many costumes | fraction / decimal / % / ratio / proportion / odds treated as unrelated |
 | **P5** | **Mental block: letters aren't numbers** | couldn't write "starts at -1, +4 each term" as a rule; couldn't solve `x + 5y = 20` for `y` |
+| **P6** | **Inverse operations not automatic** — doesn't see ÷ as the undo of ×, +/− as complements | didn't realize dividing both sides by 11/3 (or ×3 then ÷11) frees `x` |
+| **P7** | **Strategy and mechanics entangled** — knows the goal ("get x alone") but each move's arithmetic derails the plan | a full solve-for-x needed coaching at *every* step; page covered in erasures |
+| **P8** | **No verify-by-substitution reflex** — checking the answer isn't part of "done" | never thought to plug x=5 back into the original equation |
 
 Also missing: **rules of thumb** ("% means ÷100", "of means ×", "shift decimal left = ÷10"). The dad
 already taught "X% of Y = (X÷100) × Y" verbally — the app's job is to make it *muscle memory*.
+
+### Case study: the canonical solve-for-x (from real summer homework, July 2026)
+
+She solved `(4/3)(2x − 7) = −x + 9` → `x = 5` correctly, but needed coaching at every step.
+Preserve this as the **reference problem** for the Equation Move Gym (§4.8) — every observed stumble
+becomes a drill:
+
+1. Didn't see `−x + 9` can be read as `9 − x` (expression flexibility).
+2. Distributing `4/3` was hard: didn't treat `2x` as one number; unsure if `x` lands in numerator or
+   denominator (`(4/3)·2x = 8x/3`); wrote `(4/3)·(−7)` as `−28x/3` — a spurious `x`. Scaffold: show
+   whole numbers as `n/1` (7 = 7/1) so numerator×numerator / denominator×denominator is mechanical.
+3. Moving `x` across `=` by adding `x` to both sides needed prompting (legal-moves concept).
+4. Combining `8x/3 + x` requires the costume change `x = 3x/3` — **her fraction gap directly blocks
+   algebra here**. Same for `9 = 27/3` on the RHS (she went decimal, `9 + 9.3`, instead).
+5. Didn't recognize the last step is one undo: `(11/3)x = 55/3` → multiply both sides by the
+   reciprocal `3/11` (P6).
+6. Entering `(9 + 28/3) × 3/11` into a calculator in one go overloaded her (P2). Her decimal path got
+   `4.99…` — a teachable moment: decimals wobble, fractions land exactly on 5.
+7. No "plug it back in" check (P8) — and the check here is satisfying: both sides equal 4.
 
 ---
 
@@ -89,8 +111,9 @@ mathpie/
     encouragement.json  # mascot lines, success/“let’s look again” copy
   tools/
     gen_problems.py     # BUILD-TIME ONLY (Python CLI): expand/rebalance problem banks via Anthropic API
-  server/               # PHASE 4 ONLY: Python/FastAPI live-tutor proxy (holds key; text-only; streams)
+  server/               # PHASE 1 (updated): Python/FastAPI live-tutor proxy (holds key; text-only; streams)
     README.md           # plan + guardrails; deps are the `tutor` extra in pyproject.toml
+  content/rewards.json  # parent-editable coupon list + cosmetic unlocks (Reward Shelf, §4.9)
   tests.js              # logic tests (mirror caltrain-quick/tests.js style)
   README.md
   CLAUDE.md             # build/deploy notes for future sessions
@@ -120,6 +143,9 @@ A value shown morphing across forms with a live visual (a pie/bar filling):
 - **Slider mode:** drag a slider; the pie fills and all representations update live together.
 - **Match mode:** sort/match cards that are the *same value in different costumes*.
 - Teaches the gut-level "these are all the same partial-quantity idea."
+- **Algebra costumes (feeds §4.8):** the same morphing idea applied to expressions — `x ⇄ 1x ⇄ 3x/3`,
+  `9 ⇄ 27/3`, `7 ⇄ 7/1`, `−x + 9 ⇄ 9 − x`. Same value, different outfit. This is precisely the gap
+  that blocked combining `8x/3 + x` in the case study.
 
 ### 4.2 Ballpark Booth — reasonableness gate (P3) ⭐ the keystone mechanic
 Before computing, she picks an order of magnitude:
@@ -163,6 +189,36 @@ literal "replace the letter" trap.
 - **Seesaw solver:** for `x + 5y = 20`, "express y in terms of x" via a balance scale — move terms
   across the `=` and the operation flips. End state keeps the variable in the answer
   (`y = (20 − x) / 5`), reinforcing that the answer is an *expression*, not a single number.
+
+### 4.8 Equation Move Gym — separate strategy from mechanics (P6, P7) ⭐ new keystone
+The case-study insight: she has the *goal* (get x alone) but drowns because every move requires
+arithmetic she doesn't trust, so the plan and the mechanics fail together. Train them separately,
+like chess puzzles vs. full games:
+
+- **Mode A — "Call the move":** an equation is shown; she picks the next move from 3–4 cards
+  ("distribute the 4/3", "add x to both sides", "multiply both sides by 3/11"…). The app executes
+  the arithmetic *perfectly* and shows the new equation. Zero arithmetic anxiety; pure game plan.
+  Wrong move choices aren't punished — the app applies them and lets her see the equation get
+  *messier*, then offers an undo ("hmm, did that get us closer to x alone?").
+- **Mode B — "Make the move":** the app calls the move; she executes just that ONE step with chips
+  (e.g., distribute `4/3` across `(2x − 7)` with the 7 auto-shown as `7/1`). One-step arithmetic,
+  bounded working memory.
+- **Mode C — "Full solve":** both together, with the hint ladder + live tutor (§7) as backup.
+- **Move cards teach undo pairs (P6):** every card shows its inverse on the flip side (+5 ↔ −5,
+  ×3 ↔ ÷3, ×(11/3) ↔ ×(3/11) *reciprocal*). "To free x, undo what's wrapped around it, in reverse
+  order" — the wrapping-paper metaphor.
+- **"Prove it!" ritual (P8):** every solved equation ends by plugging the answer back in — and the
+  substitution check IS the win animation (both sides light up equal → confetti). Checking becomes
+  the reward, not homework. Also closes the loop on reasonableness (Ballpark gate said x ≈ 5-ish;
+  Prove-it confirms exactly 5).
+- Calculator discipline falls out for free: one op per rung means she never types a compound
+  expression like `(9 + 28/3) × 3/11` — the failure in case-study item 6.
+
+### 4.9 Reward Shelf — kawaii + real-world coupons (retention; design principle 9)
+Cosmetic unlocks (mascot accessories, skins, app icons) plus **parent-configurable real-world
+coupons** ("hug from Dad", "one Miniso trip", "you pick dinner") stored in `content/rewards.json`.
+Award on a *variable-ratio* schedule — sometimes after a milestone, sometimes at random — which is
+the strongest-known schedule for habit retention. Redeemed coupons get a little ticket animation.
 
 ---
 
@@ -230,6 +286,12 @@ ratio/proportion, then the on-ramp to algebra. Order:
 4. **Ratio & Proportion** — recipes (scale a recipe up/down), maps & scale (the cm/ft problem)
 5. **Pre-Algebra on-ramp** — "Y Do We Care" sequences & patterns (4.7)
 6. **Algebra basics** — expressions, "express y in terms of x", the seesaw solver (4.7)
+7. **Equation Move Gym** (4.8) — solve-for-x with linear equations incl. fractions
+
+**Exception to the ordering:** the Move Gym's Mode A ("call the move") requires NO arithmetic, so a
+starter version ships in Phase 1 even though full equation-solving is late-tree — because solve-for-x
+is her *live* 8th-grade homework pain right now. Modes B/C unlock as the fraction skills build,
+which makes the dependency visible and motivating: "finish Fraction Costumes to unlock Make-the-Move."
 
 Each skill unlocks the next but earlier ones stay open for revisiting. Themes (restaurant, recipe,
 map, shopping) cut across skills so the same idea shows up in different real-world clothes.
@@ -238,37 +300,56 @@ map, shopping) cut across skills so the same idea shows up in different real-wor
 
 ## 7. LLM usage — exactly where and how
 
-**MVP (Phase 1) ships with NO LLM at runtime and NO key anywhere.**
+**DECISION UPDATE (July 2026, after the case-study homework):** the live tutor moves from Phase 4
+to **Phase 1**. Coached equation-solving needs responses to *her actual wrong step*, which canned
+hint ladders can't fully anticipate. **Model: `claude-sonnet-5`** (right cost/capability point for
+Socratic nudging). The deterministic core (move legality, arithmetic, SRS, rewards) stays static and
+offline-capable — the tutor degrades gracefully when offline or over budget: canned hints still work,
+the "ask the tiger" button just grays out.
+
+Runtime tutor roles, in order of value:
+1. **Diagnose the actual mistake:** she (or the app) shows what she did — e.g. wrote `−28x/3` for
+   `(4/3)(−7)` — and the tutor names the misconception gently ("where did that x come from? Only the
+   7 is being multiplied…").
+2. **Fresh Socratic nudge** when the 3-level canned ladder is exhausted. Never the final answer.
+3. **Move commentary in the Gym:** one warm sentence on *why* the move she picked helped or didn't.
 
 - **Build-time generation (`tools/gen_problems.py`, Python, runs on the dad's laptop):** uses the
   Anthropic Python SDK (key from `.env`, never committed) to expand a small seed set into a large
   `problems.json` + varied `encouragement.json`. Run it, commit the JSON, done. Model: a current
   Claude model; cheap, one-time per content refresh. This is where the API key delivers most of its
   value. (Toolchain: venv + `pyproject.toml`; see README.)
-- **Optional live tutor (Phase 4, "talk me through it" button):** when canned hints don't land, call
-  Claude for a fresh Socratic nudge. Because a public static site can't hold a secret key, this
-  requires a **tiny proxy** that holds the key and forwards requests. **Decided: Python / FastAPI**
-  (chosen for token streaming — replies render word-by-word, the main "feels fast" win), hosted
-  scale-to-zero (Vercel Python function or Fly.io). **Voice is client-side** (browser Web Speech API:
-  `SpeechSynthesis` + `SpeechRecognition`), so the proxy stays text-only and tiny. Prompt it to
-  *never give the final answer* — one nudge at a time, warm, kid-appropriate. Gate it (only after ≥2
-  failed hint levels) to control cost; lock CORS to the Pages origin; rate-limit. Deps live as the
-  `tutor` extra in `pyproject.toml` (not installed until built). Build only if the static hint ladders
-  prove insufficient in real use. See `server/README.md`. iOS Safari caveat: speech *recognition* is
-  patchier than synthesis — provide a tap-to-type fallback.
+- **Live tutor (now Phase 1, "talk me through it" button):** because a public static site can't hold
+  a secret key, this requires a **tiny proxy** that holds the key and forwards requests. **Decided:
+  Python / FastAPI** (chosen for token streaming — replies render word-by-word, the main "feels
+  fast" win), hosted scale-to-zero (Vercel Python function or Fly.io). Model: `claude-sonnet-5`.
+  **Voice is client-side** (browser Web Speech API: `SpeechSynthesis` + `SpeechRecognition`), so the
+  proxy stays text-only and tiny — voice itself can wait for a later phase; the proxy design doesn't
+  change either way. Prompt it to *never give the final answer* — one nudge at a time, warm,
+  kid-appropriate. Gate it (only after ≥2 failed hint levels, except in Move Gym where diagnosis is
+  first-class) to control cost; lock CORS to the Pages origin; rate-limit; set a daily token budget.
+  Deps live as the `tutor` extra in `pyproject.toml` (`pip install -e ".[tutor]"`). See
+  `server/README.md`. iOS Safari caveat: speech *recognition* is patchier than synthesis — provide a
+  tap-to-type fallback.
 
 ---
 
-## 8. Build phases
+## 8. Build phases (revised July 2026 — tutor & Move Gym pulled forward)
 
 - **Phase 1 — MVP (build this first):** app shell + PWA + localStorage progress/streak; Ballpark
   Booth + Step Ladder + Pinned Chips; the **Percentages** skill with ~20 restaurant/shopping problems
-  (hand-seeded, then expanded by `gen-problems.mjs`); SRS warm-up with ~15 facts; mascot + warm copy;
-  deploy to GitHub Pages; "Add to Home Screen" verified on iPad.
-- **Phase 2:** Costume Closet + Decimal Elevator + Sentence Decoder; full Fractions & Decimals skills.
-- **Phase 3:** Ratio/Proportion (recipes + maps — includes the cm/ft problem); skill-tree UI;
-  optional parent mini-dashboard (what facts keep coming back, accuracy trend — localStorage only).
-- **Phase 4:** "Y Do We Care" algebra island (sequences + seesaw solver); optional live-tutor proxy.
+  (hand-seeded, then expanded by `tools/gen_problems.py`); **Equation Move Gym Mode A** ("call the
+  move" — no arithmetic required) seeded with the case-study equation and ~10 linear equations;
+  **live-tutor proxy** (FastAPI + `claude-sonnet-5`, streaming, guardrails per §7); SRS warm-up with
+  ~15 facts; mascot + warm copy; Reward Shelf v1 (cosmetics + parent-editable coupon list); deploy
+  to GitHub Pages; "Add to Home Screen" verified on iPad.
+- **Phase 2:** Costume Closet (incl. algebra costumes) + Decimal Elevator + Sentence Decoder; full
+  Fractions & Decimals skills; Move Gym **Mode B** (make-the-move) gated on fraction progress.
+- **Phase 3:** Ratio/Proportion (recipes + maps — includes the cm/ft problem); skill-tree UI; Move
+  Gym **Mode C** (full solve + Prove-It ritual); parent mini-dashboard (what facts keep coming back,
+  accuracy trend — localStorage only).
+- **Phase 4:** "Y Do We Care" algebra island (sequences + seesaw solver); voice mode for the tutor
+  (client-side Web Speech API); extensibility packs as class content evolves (Geometry, Algebra 2).
 
 ---
 
@@ -280,7 +361,13 @@ map, shopping) cut across skills so the same idea shows up in different real-wor
 - The "$100 dinner, 20% tip, is $115 enough?" problem plays correctly: ballpark gate → chips → step
   ladder → "$120 > $115, not enough", with a reasonableness nudge if "2¢" is picked.
 - The cm/ft map problem (Phase 3) decomposes into the two-rung ladder with a reasonableness check.
-- No API key in the repo or client bundle; `gen_problems.py` reads the key only from `.env`/env.
+- Move Gym Mode A plays the case-study equation `(4/3)(2x−7) = −x+9` end-to-end: she can reach
+  `x = 5` purely by picking moves, a wrong move shows the messier equation + undo, and the session
+  ends with the Prove-It substitution (both sides = 4).
+- Tutor: replies stream word-by-word; never contains the final numeric answer; app remains fully
+  playable with the proxy unreachable (button grays out, canned hints still work).
+- No API key in the repo or client bundle; `gen_problems.py` reads it from `.env`, the proxy from
+  its hosting env.
 - `tests.js` covers the percent/step-ladder/SRS logic and passes.
 
 ---

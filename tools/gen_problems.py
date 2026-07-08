@@ -25,7 +25,8 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 CONTENT_DIR = REPO_ROOT / "content"
 
 # Model id — keep current. See the claude-api skill / DESIGN.md before changing.
-MODEL = "claude-opus-4-8"
+# Sonnet 5 chosen for cost/capability (same model the live tutor uses).
+MODEL = "claude-sonnet-5"
 
 
 def load_key() -> str:

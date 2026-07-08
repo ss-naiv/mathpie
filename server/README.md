@@ -1,7 +1,9 @@
-# server/ — live tutor proxy (Phase 4, not yet built)
+# server/ — live tutor proxy (NOW PHASE 1 — decision updated July 2026, see DESIGN.md §7)
 
-Empty on purpose. This holds the optional "talk me through it" tutor proxy. The MVP and all earlier
-phases ship **without** it — the app stays static, offline, and key-free until this exists.
+This holds the "talk me through it" tutor proxy. Originally deferred to Phase 4; pulled into Phase 1
+after real homework showed coached equation-solving needs responses to *her actual wrong step*,
+which canned hints can't anticipate. Model: **`claude-sonnet-5`**. The app must stay fully playable
+when this proxy is unreachable (offline/off-budget → tutor button grays out, canned hints remain).
 
 ## Why a server at all
 The static app can't hold the Anthropic key (a public site can't keep a secret). So the live tutor
