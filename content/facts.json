@@ -15,7 +15,27 @@
     { "id": "quarter-dec", "front": "1/4 written as a decimal is…", "choices": ["0.25", "0.4", "2.5"], "answer": "0.25" },
     { "id": "three-quarter-pct", "front": "3/4 written as a percent is…", "choices": ["75%", "34%", "43%"], "answer": "75%" },
     { "id": "twenty-pct-frac", "front": "20% is the same as which fraction?", "choices": ["1/5", "1/2", "2/5"], "answer": "1/5" },
-    { "id": "undo-times-frac", "front": "What UNDOES multiplying by 11/3?", "choices": ["multiplying by 3/11 (the flip)", "multiplying by 11/3 again", "subtracting 11/3"], "answer": "multiplying by 3/11 (the flip)" }
+    { "id": "undo-times-frac", "front": "What UNDOES multiplying by 11/3?", "choices": ["multiplying by 3/11 (the flip)", "multiplying by 11/3 again", "subtracting 11/3"], "answer": "multiplying by 3/11 (the flip)" },
+    { "id": "pct-recipe", "front": "The recipe for “Y% of Z” is…", "choices": ["Z × Y ÷ 100", "Z + Y ÷ 100", "Y ÷ Z"], "answer": "Z × Y ÷ 100" },
+    { "id": "pct-30-90", "front": "30% of 90 = ?", "choices": ["27", "3", "60"], "answer": "27" },
+    { "id": "pct-what-of", "front": "10 is what percent of 50?", "choices": ["20%", "10%", "5%"], "answer": "20%" },
+    { "id": "pct-5-dec", "front": "5% written as a decimal is…", "choices": ["0.05", "0.5", "5.0"], "answer": "0.05" },
+    { "id": "dec-35-pct", "front": "0.35 written as a percent is…", "choices": ["35%", "3.5%", "0.35%"], "answer": "35%" },
+    { "id": "one-pct", "front": "To find 1% of any number…", "choices": ["divide it by 100", "multiply it by 100", "subtract 100"], "answer": "divide it by 100" },
+    { "id": "pct-change-rule", "front": "Percent change = the change ÷ ___ × 100", "choices": ["the ORIGINAL amount", "the new amount", "2"], "answer": "the ORIGINAL amount" },
+    { "id": "over-100", "front": "Can a percent be bigger than 100%?", "choices": ["Yes — 200% of 5 is 10", "No, 100% is the max", "Only on Tuesdays"], "answer": "Yes — 200% of 5 is 10" },
+    { "id": "in-per-ft", "front": "How many inches in a foot?", "choices": ["12", "10", "3"], "answer": "12" },
+    { "id": "ft-per-yd", "front": "How many feet in a yard?", "choices": ["3", "12", "10"], "answer": "3" },
+    { "id": "qt-per-gal", "front": "How many quarts in a gallon?", "choices": ["4", "2", "8"], "answer": "4" },
+    { "id": "cups-per-pint", "front": "How many cups in a pint?", "choices": ["2", "4", "8"], "answer": "2" },
+    { "id": "cm-per-m", "front": "How many centimeters in a meter?", "choices": ["100", "10", "1,000"], "answer": "100" },
+    { "id": "m-per-km", "front": "How many meters in a kilometer?", "choices": ["1,000", "100", "5,280"], "answer": "1,000" },
+    { "id": "drt-distance", "front": "distance = ?", "choices": ["rate × time", "rate ÷ time", "rate + time"], "answer": "rate × time" },
+    { "id": "drt-time", "front": "time = ?", "choices": ["distance ÷ rate", "rate ÷ distance", "distance × rate"], "answer": "distance ÷ rate" },
+    { "id": "drt-quick", "front": "A car goes 60 mph for 2 hours. How far?", "choices": ["120 miles", "30 miles", "62 miles"], "answer": "120 miles" },
+    { "id": "sub-neg", "front": "5 − (−3) is the same as…", "choices": ["5 + 3", "5 − 3", "−15"], "answer": "5 + 3" },
+    { "id": "order-ops", "front": "In 30 − 6 ÷ 2, what happens FIRST?", "choices": ["6 ÷ 2", "30 − 6", "whichever is leftmost"], "answer": "6 ÷ 2" },
+    { "id": "proportional-graph", "front": "A proportional relationship graphs as…", "choices": ["a straight line through (0, 0)", "any straight line", "a smiley curve"], "answer": "a straight line through (0, 0)" }
   ],
   "ballparks": [
     { "prompt": "Ballpark it: 10% of $50 is about…", "options": ["50¢", "$5", "$50"], "answer": "$5", "nudge": "10% = one decimal step left: $50 → $5.0" },
@@ -23,6 +43,11 @@
     { "prompt": "Ballpark it: half off a $90 jacket leaves it costing about…", "options": ["$4.50", "$45", "$85"], "answer": "$45", "nudge": "Half off means you pay half. Half of $90…" },
     { "prompt": "Ballpark it: 25% of 80 is about…", "options": ["2", "20", "60"], "answer": "20", "nudge": "25% is a quarter — cut 80 into 4 equal pieces." },
     { "prompt": "Ballpark it: roughly 10% tax on a $200 cart adds about…", "options": ["$2", "$20", "$200"], "answer": "$20", "nudge": "10% = one decimal step left: $200 → $20.0" },
-    { "prompt": "Ballpark it: a 15% tip on a $60 dinner is about…", "options": ["90¢", "$9", "$90"], "answer": "$9", "nudge": "10% of $60 is $6 — and 15% is a bit more than that." }
+    { "prompt": "Ballpark it: a 15% tip on a $60 dinner is about…", "options": ["90¢", "$9", "$90"], "answer": "$9", "nudge": "10% of $60 is $6 — and 15% is a bit more than that." },
+    { "prompt": "Ballpark it: 60 mph for 3 hours — about how far?", "options": ["18 miles", "180 miles", "1,800 miles"], "answer": "180 miles", "nudge": "distance = rate × time. 60 × 3…" },
+    { "prompt": "Ballpark it: about how many inches in 3 feet?", "options": ["3.6", "36", "360"], "answer": "36", "nudge": "Each foot is 12 inches, and you have 3 of them." },
+    { "prompt": "Ballpark it: a $60 game drops to $45. About what percent off?", "options": ["5%", "25%", "75%"], "answer": "25%", "nudge": "It dropped $15 out of $60 — that's a quarter of the price." },
+    { "prompt": "Ballpark it: about how many cups in a gallon?", "options": ["4", "16", "64"], "answer": "16", "nudge": "4 quarts, each 2 pints, each 2 cups: 4 × 2 × 2." },
+    { "prompt": "Ballpark it: you walk 4 mph for half an hour — about how far?", "options": ["2 miles", "4 miles", "8 miles"], "answer": "2 miles", "nudge": "Half an hour = half the hourly distance. Half of 4…" }
   ]
 }

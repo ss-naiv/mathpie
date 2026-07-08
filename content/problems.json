@@ -392,5 +392,902 @@
       "Now it's just $35 vs $38."
     ],
     "success": "You turned a marketing trick into a plain number comparison. Stores fear you now."
+  },
+  {
+    "id": "sandwich-10",
+    "skill": "percent-of",
+    "theme": "restaurant",
+    "difficulty": 2,
+    "scenario": "A sandwich costs $8.25. Will $10 be enough to cover the sandwich AND a 20% tip?",
+    "givens": [
+      { "id": "sandwich", "label": "sandwich", "value": 8.25, "unit": "$" },
+      { "id": "tip", "label": "tip rate", "value": 20, "unit": "%" },
+      { "id": "cash", "label": "cash", "value": 10, "unit": "$" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: a 20% tip on about $8 is roughly…",
+      "options": ["16¢", "$1.60", "$16"],
+      "answer": "$1.60",
+      "nudge": "20% is a fifth. A fifth of $8 is way more than pocket lint, way less than the sandwich."
+    },
+    "steps": [
+      {
+        "prompt": "Find the tip: 20% of $8.25.",
+        "template": ["_", "÷ 100 ×", "_"],
+        "fill": ["tip", "sandwich"],
+        "calc": "20/100*8.25",
+        "result": 1.65,
+        "resultLabel": "tip = $1.65",
+        "say": "20% of $8.25 is $1.65.",
+        "makes": { "id": "tipamt", "label": "tip", "value": 1.65, "unit": "$" }
+      },
+      {
+        "prompt": "Sandwich plus tip:",
+        "template": ["_", "+", "_"],
+        "fill": ["sandwich", "tipamt"],
+        "calc": "8.25+1.65",
+        "result": 9.9,
+        "resultLabel": "total = $9.90",
+        "say": "$9.90 all-in."
+      },
+      {
+        "choice": {
+          "prompt": "You have $10. The total is $9.90. Enough?",
+          "options": ["Yes — with a dime to spare", "Not enough"],
+          "answer": "Yes — with a dime to spare",
+          "say": "Covered, barely! A dime left over. Cutting it close but you KNEW before ordering."
+        }
+      }
+    ],
+    "hints": [
+      "% means ÷100: 20 ÷ 100 = 0.20.",
+      "0.20 × $8.25 = $1.65.",
+      "$8.25 + $1.65 = $9.90 — compare to $10."
+    ],
+    "success": "This exact problem was on the summer packet. Consider it officially defeated."
+  },
+  {
+    "id": "stars-200",
+    "skill": "percent-triangle",
+    "theme": "games",
+    "difficulty": 1,
+    "scenario": "A game has 200 stars to collect. You've grabbed 23% of them. How many stars is that?",
+    "givens": [
+      { "id": "stars", "label": "all stars", "value": 200, "unit": "" },
+      { "id": "pct", "label": "collected", "value": 23, "unit": "%" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: 23% is about a quarter. A quarter of 200 is about…",
+      "options": ["5", "50", "500"],
+      "answer": "50",
+      "nudge": "A quarter of 200 — chop it in half twice."
+    },
+    "steps": [
+      {
+        "prompt": "The recipe: 23% of 200. (% means ÷100, “of” means ×)",
+        "template": ["_", "÷ 100 ×", "_"],
+        "fill": ["pct", "stars"],
+        "calc": "23/100*200",
+        "result": 46,
+        "resultLabel": "46 stars",
+        "say": "46 stars — close to your ballpark of 50. When the exact answer lands near the estimate, you KNOW it's right."
+      }
+    ],
+    "hints": [
+      "The sentence contains the recipe: % means ÷100.",
+      "23 ÷ 100 = 0.23, then “of 200” means × 200.",
+      "Check it against your ballpark: should be near 50."
+    ],
+    "success": "Find-the-part: the most common of the three percent questions. One down."
+  },
+  {
+    "id": "sneaker-fund",
+    "skill": "percent-triangle",
+    "theme": "shopping",
+    "difficulty": 3,
+    "scenario": "You've saved $73 toward $125 sneakers. What percent of the way there are you?",
+    "givens": [
+      { "id": "saved", "label": "saved", "value": 73, "unit": "$" },
+      { "id": "price", "label": "price", "value": 125, "unit": "$" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: $73 out of $125 — more or less than halfway?",
+      "options": ["about 30%", "about 60%", "about 90%"],
+      "answer": "about 60%",
+      "nudge": "Half of $125 is $62.50 — and $73 is past that."
+    },
+    "steps": [
+      {
+        "prompt": "Part ÷ whole. Divide what you HAVE by what you NEED.",
+        "template": ["_", "÷", "_"],
+        "fill": ["saved", "price"],
+        "calc": "73/125",
+        "result": 0.584,
+        "resultLabel": "0.584",
+        "say": "0.584 — that's the answer wearing its decimal costume.",
+        "makes": { "id": "dec", "label": "as decimal", "value": 0.584, "unit": "" }
+      },
+      {
+        "prompt": "Change costume: decimal → percent (× 100).",
+        "template": ["_", "× 100"],
+        "fill": ["dec"],
+        "calc": "73/125*100",
+        "result": 58.4,
+        "resultLabel": "58.4%",
+        "say": "58.4% of the way there. Same number, percent costume."
+      }
+    ],
+    "hints": [
+      "“What percent” questions are part ÷ whole.",
+      "73 ÷ 125 = 0.584 — a decimal is a percent in disguise.",
+      "Slide two steps right (× 100): 58.4%."
+    ],
+    "success": "Find-the-percent: question two of the percent triangle, handled."
+  },
+  {
+    "id": "tipjar-300",
+    "skill": "percent-triangle",
+    "theme": "restaurant",
+    "difficulty": 3,
+    "scenario": "The tip jar holds $42 at closing time — the cafe owner says that's 14% of today's sales. How much did the cafe sell?",
+    "givens": [
+      { "id": "jar", "label": "tip jar", "value": 42, "unit": "$" },
+      { "id": "pct", "label": "of sales", "value": 14, "unit": "%" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: $42 is a thin 14% slice. The whole day's sales are about…",
+      "options": ["$30", "$300", "$3,000"],
+      "answer": "$300",
+      "nudge": "The whole has to be MUCH bigger than a 14% slice of it — but not a thousand times bigger."
+    },
+    "steps": [
+      {
+        "prompt": "Trick: find what 1% is worth first. $42 spread over 14 percent-points…",
+        "template": ["_", "÷", "_"],
+        "fill": ["jar", "pct"],
+        "calc": "42/14",
+        "result": 3,
+        "resultLabel": "1% = $3",
+        "say": "Each 1% of sales is $3. Now the whole thing is easy.",
+        "makes": { "id": "one", "label": "1% piece", "value": 3, "unit": "$" }
+      },
+      {
+        "prompt": "The whole is 100 of those 1% pieces.",
+        "template": ["_", "× 100"],
+        "fill": ["one"],
+        "calc": "3*100",
+        "result": 300,
+        "resultLabel": "sales = $300",
+        "say": "$300 in sales. Find 1%, scale to 100 — works every single time."
+      }
+    ],
+    "hints": [
+      "You know the slice ($42) and the slice size (14%). Find what ONE percent is worth.",
+      "42 ÷ 14 = 3 — so 1% of sales is $3.",
+      "100% = 100 × $3."
+    ],
+    "success": "Find-the-whole: the sneakiest corner of the percent triangle, and you just walked out of it."
+  },
+  {
+    "id": "pages-300",
+    "skill": "percent-triangle",
+    "theme": "school",
+    "difficulty": 3,
+    "scenario": "Last month you read 15 pages. This month: 45 pages. This month is what percent of last month?",
+    "givens": [
+      { "id": "thismo", "label": "this month", "value": 45, "unit": "pages" },
+      { "id": "lastmo", "label": "last month", "value": 15, "unit": "pages" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: 45 is three times 15. So this month is…",
+      "options": ["Can't be more than 100%", "about 300%", "about 30%"],
+      "answer": "about 300%",
+      "nudge": "Percents CAN go past 100 — that just means “more than the whole thing”. Three times as much = 300%."
+    },
+    "steps": [
+      {
+        "prompt": "Same recipe as always: part ÷ base (the thing you compare against).",
+        "template": ["_", "÷", "_"],
+        "fill": ["thismo", "lastmo"],
+        "calc": "45/15",
+        "result": 3,
+        "resultLabel": "3",
+        "say": "3 — this month is 3 times last month.",
+        "makes": { "id": "times", "label": "times as much", "value": 3, "unit": "" }
+      },
+      {
+        "prompt": "Costume change: × 100 to speak percent.",
+        "template": ["_", "× 100"],
+        "fill": ["times"],
+        "calc": "3*100",
+        "result": 300,
+        "resultLabel": "300%",
+        "say": "300%! Percents over 100 just mean “more than the original”. No law against it."
+      }
+    ],
+    "hints": [
+      "Divide this month by last month.",
+      "45 ÷ 15 = 3 — three times as much.",
+      "3 as a percent: 3 × 100."
+    ],
+    "success": "Percents above 100% unlocked. The packet has questions like “88 is what % of 23” — same move."
+  },
+  {
+    "id": "plant-25",
+    "skill": "percent-change",
+    "theme": "home",
+    "difficulty": 3,
+    "scenario": "Your plant was 20 cm tall last month. Now it's 25 cm. What percent did it grow?",
+    "givens": [
+      { "id": "before", "label": "before", "value": 20, "unit": "cm" },
+      { "id": "after", "label": "after", "value": 25, "unit": "cm" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: it grew 5 cm on a 20 cm plant. That's about…",
+      "options": ["2.5%", "25%", "250%"],
+      "answer": "25%",
+      "nudge": "5 out of 20 is a quarter of the plant's old height."
+    },
+    "steps": [
+      {
+        "prompt": "First: how much did it actually change?",
+        "template": ["_", "−", "_"],
+        "fill": ["after", "before"],
+        "calc": "25-20",
+        "result": 5,
+        "resultLabel": "grew 5 cm",
+        "say": "5 cm of new growth.",
+        "makes": { "id": "change", "label": "change", "value": 5, "unit": "cm" }
+      },
+      {
+        "prompt": "Divide the change by the ORIGINAL height (not the new one!).",
+        "template": ["_", "÷", "_"],
+        "fill": ["change", "before"],
+        "calc": "5/20",
+        "result": 0.25,
+        "resultLabel": "0.25",
+        "say": "0.25 — a quarter of the old height.",
+        "makes": { "id": "dec", "label": "as decimal", "value": 0.25, "unit": "" }
+      },
+      {
+        "prompt": "Percent costume: × 100.",
+        "template": ["_", "× 100"],
+        "fill": ["dec"],
+        "calc": "0.25*100",
+        "result": 25,
+        "resultLabel": "25% growth",
+        "say": "25% growth — right on your ballpark."
+      }
+    ],
+    "hints": [
+      "Percent change starts with the plain change: after − before.",
+      "Divide that change by the ORIGINAL (the before number).",
+      "0.25 → slide two right → 25%."
+    ],
+    "success": "Percent change = change ÷ original × 100. The packet has 24 of these — they're all this exact dance."
+  },
+  {
+    "id": "game-drop",
+    "skill": "percent-change",
+    "theme": "shopping",
+    "difficulty": 3,
+    "scenario": "A game you've been watching drops from $60 to $45. What percent off is that?",
+    "givens": [
+      { "id": "before", "label": "old price", "value": 60, "unit": "$" },
+      { "id": "after", "label": "new price", "value": 45, "unit": "$" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: it dropped $15 on a $60 game. About what % off?",
+      "options": ["5%", "25%", "75%"],
+      "answer": "25%",
+      "nudge": "$15 out of $60 is a quarter of the old price."
+    },
+    "steps": [
+      {
+        "prompt": "How many dollars did it drop?",
+        "template": ["_", "−", "_"],
+        "fill": ["before", "after"],
+        "calc": "60-45",
+        "result": 15,
+        "resultLabel": "dropped $15",
+        "say": "$15 off.",
+        "makes": { "id": "change", "label": "drop", "value": 15, "unit": "$" }
+      },
+      {
+        "prompt": "Divide the drop by the ORIGINAL price.",
+        "template": ["_", "÷", "_"],
+        "fill": ["change", "before"],
+        "calc": "15/60",
+        "result": 0.25,
+        "resultLabel": "0.25",
+        "say": "A quarter of the old price.",
+        "makes": { "id": "dec", "label": "as decimal", "value": 0.25, "unit": "" }
+      },
+      {
+        "prompt": "Say it in percent.",
+        "template": ["_", "× 100"],
+        "fill": ["dec"],
+        "calc": "0.25*100",
+        "result": 25,
+        "resultLabel": "25% off",
+        "say": "25% off. Now you know if the “SALE!” sticker is actually a deal."
+      }
+    ],
+    "hints": [
+      "Start with the plain change: $60 − $45.",
+      "Divide by the original $60 (always the original).",
+      "0.25 × 100 = 25%."
+    ],
+    "success": "Decrease edition of percent change — same recipe, direction down."
+  },
+  {
+    "id": "pen-192",
+    "skill": "percent-change",
+    "theme": "shopping",
+    "difficulty": 2,
+    "scenario": "A fancy pen's original price is $2.40, with a 20% discount. What's the selling price?",
+    "givens": [
+      { "id": "price", "label": "original", "value": 2.4, "unit": "$" },
+      { "id": "off", "label": "discount", "value": 20, "unit": "%" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: 20% off $2.40 — about how much comes off?",
+      "options": ["5¢", "50¢", "$5"],
+      "answer": "50¢",
+      "nudge": "A fifth of $2.40 is around half a dollar."
+    },
+    "steps": [
+      {
+        "prompt": "Find the discount: 20% of $2.40.",
+        "template": ["_", "÷ 100 ×", "_"],
+        "fill": ["off", "price"],
+        "calc": "20/100*2.4",
+        "result": 0.48,
+        "resultLabel": "48¢ off",
+        "say": "48 cents off.",
+        "makes": { "id": "offamt", "label": "off", "value": 0.48, "unit": "$" }
+      },
+      {
+        "prompt": "Subtract it from the original.",
+        "template": ["_", "−", "_"],
+        "fill": ["price", "offamt"],
+        "calc": "2.4-0.48",
+        "result": 1.92,
+        "resultLabel": "you pay $1.92",
+        "say": "$1.92 — straight off the summer packet, by the way."
+      }
+    ],
+    "hints": [
+      "20 ÷ 100 × 2.40 gives the discount.",
+      "That's $0.48 off.",
+      "Selling price = $2.40 − $0.48."
+    ],
+    "success": "Discounts under a dollar still follow the same rules. Packet problem: done."
+  },
+  {
+    "id": "ribbon-36",
+    "skill": "unit-conversion",
+    "theme": "home",
+    "difficulty": 1,
+    "scenario": "You need to know if a 3-foot ribbon is long enough for a project measured in inches. How many inches is it?",
+    "givens": [
+      { "id": "ribbon", "label": "ribbon", "value": 3, "unit": "ft" },
+      { "id": "inft", "label": "inches per foot", "value": 12, "unit": "" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: 3 feet in inches is about…",
+      "options": ["3.6", "36", "360"],
+      "answer": "36",
+      "nudge": "Each foot is 12 inches — three of them can't be less than 12."
+    },
+    "steps": [
+      {
+        "prompt": "Feet → inches: multiply by 12 (each foot brings 12 inches).",
+        "template": ["_", "×", "_"],
+        "fill": ["ribbon", "inft"],
+        "calc": "3*12",
+        "result": 36,
+        "resultLabel": "36 inches",
+        "say": "36 inches. Converting to a SMALLER unit means MORE of them — so multiply."
+      }
+    ],
+    "hints": [
+      "1 foot = 12 inches.",
+      "Smaller units → more of them → multiply.",
+      "3 × 12."
+    ],
+    "success": "Rule of thumb unlocked: going to smaller units = multiply, bigger units = divide."
+  },
+  {
+    "id": "lemonade-8",
+    "skill": "unit-conversion",
+    "theme": "recipe",
+    "difficulty": 2,
+    "scenario": "A lemonade recipe makes 2 quarts. Your cups hold exactly 1 cup each. How many cups can you pour?",
+    "givens": [
+      { "id": "lemonade", "label": "lemonade", "value": 2, "unit": "qt" },
+      { "id": "pintsqt", "label": "pints per quart", "value": 2, "unit": "" },
+      { "id": "cupspint", "label": "cups per pint", "value": 2, "unit": "" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: 2 quarts is about how many cups?",
+      "options": ["2", "8", "80"],
+      "answer": "8",
+      "nudge": "Each quart is 2 pints, each pint 2 cups — things double twice."
+    },
+    "steps": [
+      {
+        "prompt": "Quarts → pints first (× 2).",
+        "template": ["_", "×", "_"],
+        "fill": ["lemonade", "pintsqt"],
+        "calc": "2*2",
+        "result": 4,
+        "resultLabel": "4 pints",
+        "say": "4 pints. One hop down the unit ladder.",
+        "makes": { "id": "pints", "label": "pints", "value": 4, "unit": "" }
+      },
+      {
+        "prompt": "Pints → cups (× 2 again).",
+        "template": ["_", "×", "_"],
+        "fill": ["pints", "cupspint"],
+        "calc": "4*2",
+        "result": 8,
+        "resultLabel": "8 cups",
+        "say": "8 cups of lemonade. Chain conversions one hop at a time — never all at once."
+      }
+    ],
+    "hints": [
+      "Go one hop at a time: quarts → pints → cups.",
+      "2 quarts × 2 = 4 pints.",
+      "4 pints × 2 = 8 cups."
+    ],
+    "success": "Unit chains are just repeated hops. The packet's seconds→days monster works the same way."
+  },
+  {
+    "id": "map-keys",
+    "skill": "unit-conversion",
+    "theme": "map",
+    "difficulty": 4,
+    "scenario": "On a map of Palo Alto, 1 cm represents 2000 feet. Keys School is 4.8 miles from the Shoreline. How many cm apart are they on the map? (1 mile = 5280 feet)",
+    "givens": [
+      { "id": "dist", "label": "real distance", "value": 4.8, "unit": "miles" },
+      { "id": "ftmile", "label": "feet per mile", "value": 5280, "unit": "" },
+      { "id": "ftcm", "label": "feet per map-cm", "value": 2000, "unit": "" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: 4.8 miles is about 25,000 ft, and each map-cm eats 2000 ft. So on the map…",
+      "options": ["about 1.3 cm", "about 13 cm", "about 130 cm"],
+      "answer": "about 13 cm",
+      "nudge": "25,000 ÷ 2,000 — how many 2s go into 25? A bit more than 12."
+    },
+    "steps": [
+      {
+        "prompt": "First get everything in FEET: how many feet is 4.8 miles?",
+        "template": ["_", "×", "_"],
+        "fill": ["dist", "ftmile"],
+        "calc": "4.8*5280",
+        "result": 25344,
+        "resultLabel": "25,344 ft",
+        "say": "25,344 feet. Don't lose the 4.8 — it multiplies the WHOLE mile, all at once.",
+        "makes": { "id": "feet", "label": "distance", "value": 25344, "unit": "ft" }
+      },
+      {
+        "prompt": "Each map-cm covers 2000 ft. How many cm?",
+        "template": ["_", "÷", "_"],
+        "fill": ["feet", "ftcm"],
+        "calc": "25344/2000",
+        "result": 12.672,
+        "resultLabel": "12.672 cm",
+        "say": "12.672 cm — about 13, just like your ballpark said. THE summer packet problem, solved in two clean moves."
+      }
+    ],
+    "hints": [
+      "Two hops: miles → feet, then feet → map-cm.",
+      "4.8 × 5280 converts ALL the miles to feet in one multiplication.",
+      "Then divide by 2000, since each cm swallows 2000 ft."
+    ],
+    "success": "This is THE map problem from the packet — the one that used to take forever. Two moves now."
+  },
+  {
+    "id": "pool-years",
+    "skill": "unit-conversion",
+    "theme": "home",
+    "difficulty": 3,
+    "scenario": "The average American uses 88 gallons of water a day. An Olympic pool holds 660,000 gallons. Roughly how long to fill one, single-handedly?",
+    "givens": [
+      { "id": "pool", "label": "pool", "value": 660000, "unit": "gal" },
+      { "id": "daily", "label": "per day", "value": 88, "unit": "gal" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: 660,000 ÷ 88 — how many DAYS, roughly?",
+      "options": ["75 days", "750 days", "7,500 days"],
+      "answer": "7,500 days",
+      "nudge": "660,000 ÷ 88 is close to 660,000 ÷ 100 = 6,600 — but a bit more, since 88 < 100."
+    },
+    "steps": [
+      {
+        "prompt": "How many days of water use fill the pool?",
+        "template": ["_", "÷", "_"],
+        "fill": ["pool", "daily"],
+        "calc": "660000/88",
+        "result": 7500,
+        "resultLabel": "7,500 days",
+        "say": "7,500 days of showers and dishes.",
+        "makes": { "id": "days", "label": "days", "value": 7500, "unit": "" }
+      },
+      {
+        "choice": {
+          "prompt": "7,500 days — about how many YEARS is that? (365 days each)",
+          "options": ["About 2 years", "About 20 years", "About 200 years"],
+          "answer": "About 20 years",
+          "say": "7,500 ÷ 365 ≈ 20.5 years. You just estimated a division without touching a calculator."
+        }
+      }
+    ],
+    "hints": [
+      "Divide the pool by the daily amount to get days.",
+      "660,000 ÷ 88 = 7,500 days.",
+      "For years: 7,500 ÷ 365 — round 365 to ~375 or think “20 × 365 = 7,300”."
+    ],
+    "success": "Packet problem, plus a bonus estimation move at the end. That's range."
+  },
+  {
+    "id": "squirrel-88",
+    "skill": "rate-time",
+    "theme": "map",
+    "difficulty": 4,
+    "scenario": "A car travels 30 mph. The driver takes 2 seconds to notice a squirrel and hit the brakes. How far does the car travel in those 2 seconds?",
+    "givens": [
+      { "id": "speed", "label": "speed", "value": 30, "unit": "mph" },
+      { "id": "ftmile", "label": "feet per mile", "value": 5280, "unit": "" },
+      { "id": "sechr", "label": "seconds per hour", "value": 3600, "unit": "" },
+      { "id": "react", "label": "reaction", "value": 2, "unit": "sec" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: in 2 seconds, a car at neighborhood speed covers about…",
+      "options": ["9 feet", "90 feet", "900 feet"],
+      "answer": "90 feet",
+      "nudge": "30 mph is about 45 ft per second — two of those is most of a basketball court, not one hop."
+    },
+    "steps": [
+      {
+        "prompt": "Turn 30 miles into feet (so the units can talk to seconds).",
+        "template": ["_", "×", "_"],
+        "fill": ["speed", "ftmile"],
+        "calc": "30*5280",
+        "result": 158400,
+        "resultLabel": "158,400 ft per hour",
+        "say": "158,400 feet every hour.",
+        "makes": { "id": "fthr", "label": "ft per hour", "value": 158400, "unit": "" }
+      },
+      {
+        "prompt": "Per hour → per second (÷ 3600).",
+        "template": ["_", "÷", "_"],
+        "fill": ["fthr", "sechr"],
+        "calc": "158400/3600",
+        "result": 44,
+        "resultLabel": "44 ft per second",
+        "say": "44 feet every second. That's the car's true pace.",
+        "makes": { "id": "ftsec", "label": "ft per sec", "value": 44, "unit": "" }
+      },
+      {
+        "prompt": "Distance = rate × time. Two seconds of that:",
+        "template": ["_", "×", "_"],
+        "fill": ["ftsec", "react"],
+        "calc": "44*2",
+        "result": 88,
+        "resultLabel": "88 feet",
+        "say": "88 feet before the brakes even engage. (Also: packet problem #1, dismantled.)"
+      }
+    ],
+    "hints": [
+      "The units don't match: miles-per-hour vs seconds. Convert first.",
+      "30 × 5280 = feet per hour; ÷ 3600 = feet per second.",
+      "44 ft/sec × 2 sec = distance."
+    ],
+    "success": "Squirrel: saved. Rate problems are unit conversions wearing a trench coat."
+  },
+  {
+    "id": "powerwalk-11",
+    "skill": "rate-time",
+    "theme": "map",
+    "difficulty": 3,
+    "scenario": "Alex powerwalks at 4 mph. How far does Alex go in 2 hours and 45 minutes?",
+    "givens": [
+      { "id": "rate", "label": "speed", "value": 4, "unit": "mph" },
+      { "id": "hrs", "label": "hours", "value": 2, "unit": "h" },
+      { "id": "mins", "label": "minutes", "value": 45, "unit": "min" },
+      { "id": "sixty", "label": "min per hour", "value": 60, "unit": "" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: almost 3 hours at 4 mph is about…",
+      "options": ["1 mile", "11 miles", "110 miles"],
+      "answer": "11 miles",
+      "nudge": "3 full hours would be 12 miles — so a bit under that."
+    },
+    "steps": [
+      {
+        "prompt": "First, make the 45 minutes speak “hours”: 45 ÷ 60.",
+        "template": ["_", "÷", "_"],
+        "fill": ["mins", "sixty"],
+        "calc": "45/60",
+        "result": 0.75,
+        "resultLabel": "0.75 h",
+        "say": "45 minutes = 0.75 hours. (Three quarters of an hour — the fraction and the clock agree.)",
+        "makes": { "id": "frac", "label": "as hours", "value": 0.75, "unit": "h" }
+      },
+      {
+        "prompt": "Total time walking:",
+        "template": ["_", "+", "_"],
+        "fill": ["hrs", "frac"],
+        "calc": "2+0.75",
+        "result": 2.75,
+        "resultLabel": "2.75 h",
+        "say": "2.75 hours on the move.",
+        "makes": { "id": "time", "label": "total time", "value": 2.75, "unit": "h" }
+      },
+      {
+        "prompt": "Distance = rate × time.",
+        "template": ["_", "×", "_"],
+        "fill": ["time", "rate"],
+        "calc": "2.75*4",
+        "result": 11,
+        "resultLabel": "11 miles",
+        "say": "11 miles. Straight off the packet — page 2, problem 9a."
+      }
+    ],
+    "hints": [
+      "Minutes and hours can't mix — convert 45 min to hours first.",
+      "45 ÷ 60 = 0.75, so the time is 2.75 hours.",
+      "Then distance = 4 × 2.75."
+    ],
+    "success": "d = r × t, with a unit conversion warm-up act. Classic combo."
+  },
+  {
+    "id": "phone-19",
+    "skill": "rate-time",
+    "theme": "shopping",
+    "difficulty": 3,
+    "scenario": "Avery earns $12 an hour babysitting and already has $80 saved. The phone costs $300. How many hours of babysitting to go?",
+    "givens": [
+      { "id": "wage", "label": "per hour", "value": 12, "unit": "$" },
+      { "id": "saved", "label": "saved", "value": 80, "unit": "$" },
+      { "id": "phone", "label": "phone", "value": 300, "unit": "$" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: Avery still needs about $220 at $12/hour. Roughly how many hours?",
+      "options": ["about 2 hours", "about 18 hours", "about 180 hours"],
+      "answer": "about 18 hours",
+      "nudge": "$12 × 10 hours is only $120 — so it's more than 10, but nowhere near 180."
+    },
+    "steps": [
+      {
+        "prompt": "How much is still missing?",
+        "template": ["_", "−", "_"],
+        "fill": ["phone", "saved"],
+        "calc": "300-80",
+        "result": 220,
+        "resultLabel": "still need $220",
+        "say": "$220 to go.",
+        "makes": { "id": "need", "label": "still need", "value": 220, "unit": "$" }
+      },
+      {
+        "choice": {
+          "prompt": "18 hours × $12 = $216. Is 18 hours of babysitting enough?",
+          "options": ["Yes, 18 is enough", "Not quite — it takes 19"],
+          "answer": "Not quite — it takes 19",
+          "say": "$216 < $220 — four dollars short! Hours don't come in fractions when you're babysitting, so round UP: 19 hours."
+        }
+      }
+    ],
+    "hints": [
+      "First find the gap: $300 − $80.",
+      "$220 ÷ $12 per hour ≈ 18.3 hours.",
+      "You can't work 0.3 of a babysitting job — round up."
+    ],
+    "success": "The sneaky lesson: real-world division often rounds UP. The packet answer is 19, not 18.3."
+  },
+  {
+    "id": "descent-1500",
+    "skill": "rate-time",
+    "theme": "map",
+    "difficulty": 2,
+    "scenario": "A plane is at 30,000 feet and needs to reach the runway in 20 minutes. How fast must it descend?",
+    "givens": [
+      { "id": "alt", "label": "altitude", "value": 30000, "unit": "ft" },
+      { "id": "time", "label": "time", "value": 20, "unit": "min" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: 30,000 ft spread over 20 minutes is about…",
+      "options": ["15 ft per min", "1,500 ft per min", "150,000 ft per min"],
+      "answer": "1,500 ft per min",
+      "nudge": "30,000 ÷ 20: knock a zero off each — 3,000 ÷ 2."
+    },
+    "steps": [
+      {
+        "prompt": "Rate = distance ÷ time.",
+        "template": ["_", "÷", "_"],
+        "fill": ["alt", "time"],
+        "calc": "30000/20",
+        "result": 1500,
+        "resultLabel": "1,500 ft per minute",
+        "say": "1,500 feet per minute, straight from the d-r-t triangle. Rate = distance ÷ time."
+      }
+    ],
+    "hints": [
+      "You have distance (30,000 ft) and time (20 min) — you want the rate.",
+      "rate = distance ÷ time.",
+      "Shortcut: 30,000 ÷ 20 = 3,000 ÷ 2."
+    ],
+    "success": "One division, one landing. The d-r-t triangle has three corners — you've now used two."
+  },
+  {
+    "id": "pancakes-10",
+    "skill": "proportion",
+    "theme": "recipe",
+    "difficulty": 1,
+    "scenario": "The pancake recipe calls for 2 tablespoons of sugar per cup of flour. Weekend crowd — you're using 5 cups of flour. How much sugar?",
+    "givens": [
+      { "id": "sugar", "label": "sugar per cup", "value": 2, "unit": "tbsp" },
+      { "id": "flour", "label": "flour", "value": 5, "unit": "cups" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: 5 cups of flour needs about how much sugar?",
+      "options": ["1 tbsp", "10 tbsp", "100 tbsp"],
+      "answer": "10 tbsp",
+      "nudge": "Each cup brings 2 tablespoons along. Five cups…"
+    },
+    "steps": [
+      {
+        "prompt": "Every cup of flour drags 2 tbsp of sugar with it.",
+        "template": ["_", "×", "_"],
+        "fill": ["flour", "sugar"],
+        "calc": "5*2",
+        "result": 10,
+        "resultLabel": "10 tbsp sugar",
+        "say": "10 tablespoons. Recipes are proportions you can eat."
+      }
+    ],
+    "hints": [
+      "The ratio is 2 sugar : 1 flour.",
+      "Scale it: 5 cups of flour means 5 of those ratios.",
+      "5 × 2."
+    ],
+    "success": "Proportionality, breakfast edition."
+  },
+  {
+    "id": "roadtrip-mpg",
+    "skill": "proportion",
+    "theme": "map",
+    "difficulty": 2,
+    "scenario": "The family car went 402 miles on 12 gallons of gas. How far can it go on one gallon — and on the 3 gallons left in the tank?",
+    "givens": [
+      { "id": "miles", "label": "miles driven", "value": 402, "unit": "mi" },
+      { "id": "gals", "label": "gas used", "value": 12, "unit": "gal" },
+      { "id": "left", "label": "gas left", "value": 3, "unit": "gal" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: 402 miles on 12 gallons — about how many miles per gallon?",
+      "options": ["3", "33", "333"],
+      "answer": "33",
+      "nudge": "400 ÷ 12 is a bit more than 400 ÷ 13 ≈ 30. Cars don't get 3 or 333 mpg."
+    },
+    "steps": [
+      {
+        "prompt": "Unit rate first: miles per ONE gallon.",
+        "template": ["_", "÷", "_"],
+        "fill": ["miles", "gals"],
+        "calc": "402/12",
+        "result": 33.5,
+        "resultLabel": "33.5 mpg",
+        "say": "33.5 miles per gallon — the car's “unit rate”.",
+        "makes": { "id": "mpg", "label": "per gallon", "value": 33.5, "unit": "mi" }
+      },
+      {
+        "prompt": "So 3 gallons takes you…",
+        "template": ["_", "×", "_"],
+        "fill": ["mpg", "left"],
+        "calc": "33.5*3",
+        "result": 100.5,
+        "resultLabel": "100.5 miles",
+        "say": "About 100 miles of range. Find the rate for ONE, then scale — that's proportions in one sentence."
+      }
+    ],
+    "hints": [
+      "First find miles per single gallon: 402 ÷ 12.",
+      "That's 33.5 mpg.",
+      "3 gallons → 3 × 33.5."
+    ],
+    "success": "Unit rate → scale up. The most useful two-step in all of math."
+  },
+  {
+    "id": "tickets-625",
+    "skill": "proportion",
+    "theme": "games",
+    "difficulty": 2,
+    "scenario": "At the county fair, 8 ride tickets cost $2. You want 25 tickets. How much will that cost?",
+    "givens": [
+      { "id": "cost", "label": "cost", "value": 2, "unit": "$" },
+      { "id": "tickets", "label": "tickets", "value": 8, "unit": "" },
+      { "id": "want", "label": "you want", "value": 25, "unit": "" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: 25 tickets is about 3 batches of 8. So about…",
+      "options": ["60¢", "$6", "$60"],
+      "answer": "$6",
+      "nudge": "Three batches at $2 each — can't be less than one batch costs."
+    },
+    "steps": [
+      {
+        "prompt": "Unit rate: what does ONE ticket cost?",
+        "template": ["_", "÷", "_"],
+        "fill": ["cost", "tickets"],
+        "calc": "2/8",
+        "result": 0.25,
+        "resultLabel": "25¢ each",
+        "say": "A quarter per ticket. (0.25 — there's that decimal costume again.)",
+        "makes": { "id": "each", "label": "per ticket", "value": 0.25, "unit": "$" }
+      },
+      {
+        "prompt": "Scale up to 25 tickets.",
+        "template": ["_", "×", "_"],
+        "fill": ["each", "want"],
+        "calc": "0.25*25",
+        "result": 6.25,
+        "resultLabel": "$6.25",
+        "say": "$6.25 — your $6 ballpark was right on the money. Literally."
+      }
+    ],
+    "hints": [
+      "Find one ticket's price first: $2 ÷ 8.",
+      "25¢ per ticket.",
+      "25 tickets × 25¢."
+    ],
+    "success": "Packet problem 16, defeated by the one-then-many move."
+  },
+  {
+    "id": "punch-6",
+    "skill": "proportion",
+    "theme": "recipe",
+    "difficulty": 3,
+    "scenario": "Lyndon's party punch mixes 16 oz of pineapple juice with 24 oz of cranberry. You only have 4 oz of pineapple left. How much cranberry keeps the taste right?",
+    "givens": [
+      { "id": "pine", "label": "pineapple", "value": 16, "unit": "oz" },
+      { "id": "cran", "label": "cranberry", "value": 24, "unit": "oz" },
+      { "id": "have", "label": "you have", "value": 4, "unit": "oz" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: you have a QUARTER of the pineapple. So you need about how much cranberry?",
+      "options": ["about 6 oz", "about 24 oz", "about 96 oz"],
+      "answer": "about 6 oz",
+      "nudge": "Shrink the recipe, shrink BOTH juices. A quarter of 24…"
+    },
+    "steps": [
+      {
+        "prompt": "The recipe's ratio: how much cranberry per 1 oz of pineapple?",
+        "template": ["_", "÷", "_"],
+        "fill": ["cran", "pine"],
+        "calc": "24/16",
+        "result": 1.5,
+        "resultLabel": "1.5 oz cran per oz pine",
+        "say": "1.5 — every ounce of pineapple wants 1.5 ounces of cranberry alongside.",
+        "makes": { "id": "ratio", "label": "the ratio", "value": 1.5, "unit": "" }
+      },
+      {
+        "prompt": "Apply it to your 4 oz.",
+        "template": ["_", "×", "_"],
+        "fill": ["ratio", "have"],
+        "calc": "1.5*4",
+        "result": 6,
+        "resultLabel": "6 oz cranberry",
+        "say": "6 oz. Taste: preserved. Ratios keep flavors safe when quantities change."
+      }
+    ],
+    "hints": [
+      "Find the ratio first: cranberry ÷ pineapple.",
+      "24 ÷ 16 = 1.5 cranberry for every 1 pineapple.",
+      "4 oz pineapple × 1.5."
+    ],
+    "success": "Scaling a recipe DOWN — same proportion move, smaller pancakes."
   }
 ]

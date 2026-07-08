@@ -300,5 +300,138 @@
       },
       "win": { "eq": "x = −6", "win": true }
     }
+  },
+  {
+    "id": "ugly-answer",
+    "title": "The ugly-answer badge",
+    "goal": "Solve for x",
+    "difficulty": 4,
+    "start": "s0",
+    "prove": {
+      "sub": "x = −4/15",
+      "lines": [
+        "Right side: −5(3 · (−4/15) − 1) = −5(−4/5 − 1)",
+        "= −5(−9/5) = 45/5 = 9",
+        "Left side: 9.  9 = 9 ✓ (Ugly answers check out just like pretty ones.)"
+      ]
+    },
+    "states": {
+      "s0": {
+        "eq": "9 = −5(3x − 1)",
+        "moves": [
+          { "label": "Distribute the −5 (flip signs as it goes!)", "good": true, "to": "s1", "note": "−5 hits BOTH things inside: −5·3x = −15x, and −5·(−1) = +5. The minus flips the sign." },
+          { "label": "Distribute the 5 without its minus", "eq": "9 = 5·3x − 5·1 ⚠️", "note": "The minus is part of the −5 — it rides along and flips the −1 into +5." },
+          { "label": "Add 1 to both sides", "eq": "10 = −5(3x − 1) + 1", "note": "That −1 is INSIDE the wrapper — you can't reach it from out here." }
+        ]
+      },
+      "s1": {
+        "eq": "9 = −15x + 5",
+        "moves": [
+          { "label": "Subtract 5 from both sides", "good": true, "to": "s2", "note": "Peel the +5 off; the x-term stands alone." },
+          { "label": "Divide both sides by −15 now", "eq": "−3/5 = x − 1/3", "note": "Legal! But it smeared −15 over everything. Peel the +5 first — outside-in." }
+        ]
+      },
+      "s2": {
+        "eq": "4 = −15x",
+        "moves": [
+          { "label": "Divide both sides by −15", "good": true, "to": "win", "note": "Divide by the WHOLE coefficient, minus included. 4/(−15) = −4/15. Yes, it's ugly. It's still right." },
+          { "label": "Divide both sides by 15", "eq": "4/15 = −x", "note": "Almost — but that leaves −x and one more flip. Take the −15 in one bite." }
+        ]
+      },
+      "win": { "eq": "x = −4/15", "win": true }
+    }
+  },
+  {
+    "id": "in-terms-of",
+    "title": "Y, in terms of x",
+    "goal": "Get y by itself (in terms of x)",
+    "difficulty": 3,
+    "start": "s0",
+    "prove": {
+      "sub": "test with x = 5",
+      "lines": [
+        "Our answer: y = 4 − (4/5)x. At x = 5:  y = 4 − 4 = 0",
+        "Check the original: 4·5 + 5·0 = 20 ✓",
+        "The answer KEEPS the x — that's the whole point. y depends on x."
+      ]
+    },
+    "states": {
+      "s0": {
+        "eq": "4x + 5y = 20",
+        "moves": [
+          { "label": "Subtract 4x from both sides", "good": true, "to": "s1", "note": "y is the VIP here — everything that isn't y gets escorted to the other side. The 4x comes along as a package; it doesn't become a number." },
+          { "label": "Subtract 20 from both sides", "eq": "4x + 5y − 20 = 0", "note": "Legal, but a big zero doesn't free y. Move the things AWAY from y instead." },
+          { "label": "Divide everything by 5 first", "eq": "(4/5)x + y = 4", "note": "Legal, and honestly almost there! But dividing while 4x still sits next to y sprays fractions early. Move the 4x first." }
+        ]
+      },
+      "s1": {
+        "eq": "5y = 20 − 4x",
+        "moves": [
+          { "label": "Divide both sides by 5 (ALL of both sides)", "good": true, "to": "win", "note": "The ÷5 hits every term: 20÷5 = 4 and 4x÷5 = (4/5)x. The x stays in the answer — it's supposed to!" },
+          { "label": "Subtract 5 from both sides", "eq": "5y − 5 = 15 − 4x", "note": "y is MULTIPLIED by 5 — the undo is ÷5, not −5." }
+        ]
+      },
+      "win": { "eq": "y = 4 − (4/5)x", "win": true }
+    }
+  },
+  {
+    "id": "double-bracket",
+    "title": "Brackets on both sides",
+    "goal": "Solve for x",
+    "difficulty": 4,
+    "start": "s0",
+    "prove": {
+      "sub": "x = −1/2",
+      "lines": [
+        "Left side: 8 − (−1/2 − 3) = 8 − (−3.5) = 8 + 3.5 = 11.5",
+        "Right side: 4(−1/2) + 9(1/2 + 1) = −2 + 9(1.5) = −2 + 13.5 = 11.5",
+        "11.5 = 11.5 ✓"
+      ]
+    },
+    "states": {
+      "s0": {
+        "eq": "8 − (x − 3) = 4x + 9(−x + 1)",
+        "moves": [
+          { "label": "Open −(x − 3): flip BOTH signs", "good": true, "to": "s1", "note": "−(x − 3) = −x + 3. The minus flips everything inside." },
+          { "label": "Open it as −x − 3", "eq": "8 − x − 3 = 4x + 9(−x + 1)", "note": "The minus hits the −3 too: −(x − 3) = −x PLUS 3." }
+        ]
+      },
+      "s1": {
+        "eq": "8 − x + 3 = 4x + 9(−x + 1)",
+        "moves": [
+          { "label": "Distribute the 9", "good": true, "to": "s2", "note": "9·(−x) = −9x and 9·1 = 9. Every resident of the bracket gets multiplied." },
+          { "label": "Combine 8 − x + 3 with the 4x across the equals", "eq": "11 + 3x = 9(−x + 1) ⚠️", "note": "Whoa — terms can't jump across the = sign by themselves! Combine only what lives on the same side." }
+        ]
+      },
+      "s2": {
+        "eq": "8 − x + 3 = 4x − 9x + 9",
+        "moves": [
+          { "label": "Tidy both sides (combine like terms)", "good": true, "to": "s3", "note": "Left: 8+3 = 11. Right: 4x − 9x = −5x. (One forward, nine back = five back.)" },
+          { "label": "Subtract 8 from both sides", "eq": "−x + 3 = 4x − 9x + 1", "note": "Legal! But both sides are still messy. Tidy up BEFORE moving things — less to carry." }
+        ]
+      },
+      "s3": {
+        "eq": "11 − x = −5x + 9",
+        "moves": [
+          { "label": "Add 5x to both sides", "good": true, "to": "s4", "note": "−x + 5x = 4x. Gathering the x's on the friendlier (positive) side." },
+          { "label": "Add x to both sides", "eq": "11 = −4x + 9", "note": "Legal, and it works! But it parks the x's with a minus sign. Adding 5x keeps them positive — friendlier." }
+        ]
+      },
+      "s4": {
+        "eq": "11 + 4x = 9",
+        "moves": [
+          { "label": "Subtract 11 from both sides", "good": true, "to": "s5", "note": "9 − 11 = −2. Negative numbers are allowed to show up — let them." },
+          { "label": "Divide both sides by 4 now", "eq": "11/4 + x = 9/4", "note": "Legal but it fractioned the 11 too. Peel the +11 off first." }
+        ]
+      },
+      "s5": {
+        "eq": "4x = −2",
+        "moves": [
+          { "label": "Divide both sides by 4", "good": true, "to": "win", "note": "−2/4 = −1/2. Simplify the fraction and take a bow." },
+          { "label": "Add 2 to both sides", "eq": "4x + 2 = 0", "note": "x is MULTIPLIED by 4 — undo with ÷4." }
+        ]
+      },
+      "win": { "eq": "x = −1/2", "win": true }
+    }
   }
 ]

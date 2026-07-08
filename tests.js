@@ -114,6 +114,10 @@ for (const e of equations) {
 // ---------- skills / encouragement / rewards ----------
 check('skills: warmup+percent+gym unlocked',
   ['warmup', 'percent-of', 'move-gym'].every(id => skills.find(s => s.id === id && s.unlocked)));
+const questSkillSet = new Set(skills.flatMap(s => (s.unlocked && s.questSkills) || []));
+for (const p of problems) {
+  check(`${p.id}: skill "${p.skill}" reachable from a home tile`, questSkillSet.has(p.skill));
+}
 for (const key of ['welcome', 'success', 'tryAgain', 'gymGood', 'gymSoft', 'proveIt', 'wrap', 'ballparkRight']) {
   check(`encouragement: ${key} non-empty`, Array.isArray(enc[key]) && enc[key].length > 0);
 }

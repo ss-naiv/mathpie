@@ -227,6 +227,19 @@ the strongest-known schedule for habit retention. Redeemed coupons get a little 
 
 ---
 
+### Content sources (updated July 2026)
+
+The content banks are seeded from her actual **Rising 8th Summer Work packet** (Review Pages 1–6 +
+Practice Problems), covering: unit conversion chains, the percent triangle (find part / find percent
+/ find whole), percent of change, markup/discount/tax, distance-rate-time, proportional
+relationships & unit rates, solving linear equations, express-y-in-terms-of-x, brackets & sign
+flips. Several problems are lifted verbatim (map-scale, squirrel reaction-distance, $8.25 sandwich,
+(4/3)(2x−7)=−x+9, the nested-bracket simplify, 4x+5y=20). **Note:** Practice Problems pages 14,
+25–39, 53–56 are image-only scans, not yet mined (needs poppler/pdftoppm to render). Concepts
+already "completed" in the packet stay in rotation — the SRS deck exists precisely because
+completion ≠ retention (the "Y% of Z = Z×Y÷100" recipe appears in multiple costumes for this
+reason).
+
 ## 5. Content data model (data-driven; Claude generates the bank)
 
 Everything the kid sees is data, so the bank can grow without code changes. Suggested `problems.json`

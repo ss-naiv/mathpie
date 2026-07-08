@@ -243,11 +243,11 @@ function renderHome(){
   html += '<h2 style="margin:18px 4px 6px">Free play</h2>';
   for(const sk of C.skills){
     if (sk.id==='warmup')
-      html += '<button class="skilltile" data-go="warmup"><span class="emoji">'+sk.emoji+'</span><span>'+esc(sk.name)+(done.warmup?' ✓':'')+'<span class="sub">Quick facts &amp; ballparks</span></span></button>';
-    else if (sk.id==='percent-of')
-      html += '<button class="skilltile" data-go="quest"><span class="emoji">'+sk.emoji+'</span><span>'+esc(sk.name)+(done.quest?' ✓':'')+'<span class="sub">Real-world percent quests</span></span></button>';
+      html += '<button class="skilltile" data-go="warmup"><span class="emoji">'+sk.emoji+'</span><span>'+esc(sk.name)+(done.warmup?' ✓':'')+'<span class="sub">'+esc(sk.sub||'')+'</span></span></button>';
     else if (sk.id==='move-gym')
-      html += '<button class="skilltile" data-go="gym"><span class="emoji">'+sk.emoji+'</span><span>'+esc(sk.name)+(done.gym?' ✓':'')+'<span class="sub">Pick the right move, x gets free</span></span></button>';
+      html += '<button class="skilltile" data-go="gym"><span class="emoji">'+sk.emoji+'</span><span>'+esc(sk.name)+(done.gym?' ✓':'')+'<span class="sub">'+esc(sk.sub||'')+'</span></span></button>';
+    else if (sk.unlocked && sk.questSkills)
+      html += '<button class="skilltile" data-go="quest" data-skillgroup="'+esc(sk.id)+'"><span class="emoji">'+sk.emoji+'</span><span>'+esc(sk.name)+(done.quest?' ✓':'')+'<span class="sub">'+esc(sk.sub||'')+'</span></span></button>';
     else
       html += '<button class="skilltile locked"><span class="emoji">'+sk.emoji+'</span><span>'+esc(sk.name)+'<span class="sub">Coming soon</span></span></button>';
   }
@@ -259,7 +259,10 @@ function renderHome(){
     b.onclick = ()=>{ sessionMode = false;
       const go = b.getAttribute('data-go');
       if (go==='warmup') startWarmup();
-      else if (go==='quest') startQuest();
+      else if (go==='quest'){
+        const grp = C.skills.find(s=>s.id===b.getAttribute('data-skillgroup'));
+        startQuest(grp ? grp.questSkills : null);
+      }
       else if (go==='gym') startGym();
       else if (go==='shelf') renderShelf();
     };
@@ -340,8 +343,9 @@ function pickFrom(list, usedKey){
   if (!avail.length){ S[usedKey] = []; save(); avail = list; }
   return pick(avail);
 }
-function startQuest(){
-  const p = pickFrom(C.problems, 'usedProblems');
+function startQuest(skillFilter){
+  const pool = skillFilter ? C.problems.filter(p=>skillFilter.includes(p.skill)) : C.problems;
+  const p = pickFrom(pool.length ? pool : C.problems, 'usedProblems');
   Q = { p, si:-1, hintIdx:0, chips:{}, slotIdx:0 };
   for (const g of p.givens) Q.chips[g.id] = Object.assign({}, g);
   renderQuestIntro();
