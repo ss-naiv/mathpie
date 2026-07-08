@@ -694,7 +694,7 @@ async function boot(){
   } catch(e){
     document.getElementById('app').innerHTML = '<div class="card"><h2>Hmm, couldn\'t load.</h2>'+
       '<p>MathPie needs to be served over http(s) — opening the file directly won\'t work. '+
-      'Try <code>python3 -m http.server</code> in the app folder, or use the web link.</p></div>';
+      'Try <code>node tools/serve.js</code> in the app folder, or use the web link.</p></div>';
     return;
   }
   renderHeader(); renderHat(); wireSettings(); renderHome();
