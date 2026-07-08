@@ -7,7 +7,12 @@ teen. Estimate-before-you-compute, no transcription, no punishment, 10 minutes a
 
 ## Status
 
-Design complete. App not yet built — Phase 1 (Percentages + restaurant scenarios) is next.
+**Phase 1 MVP built and live:** https://ss-naiv.github.io/mathpie/
+
+Included: daily session (warm-up → percent quest → Move Gym), SRS fact deck, Ballpark gates,
+tap-chips (no transcription), Equation Move Gym with her real homework problems, Prove-It ritual,
+streaks/XP, Reward Shelf (parent-editable coupons in `content/rewards.json`), PWA offline support,
+and an optional live tutor (see `server/`). Next: Costume Closet, Decimal Elevator (Phase 2).
 
 ## Architecture in one breath
 

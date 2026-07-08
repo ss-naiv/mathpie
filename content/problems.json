@@ -1,0 +1,396 @@
+[
+  {
+    "id": "tip-100",
+    "skill": "percent-of",
+    "theme": "restaurant",
+    "difficulty": 2,
+    "scenario": "Dinner came to $100. You want to leave a 20% tip. You have $115 in cash — is that enough?",
+    "givens": [
+      { "id": "bill", "label": "bill", "value": 100, "unit": "$" },
+      { "id": "tip", "label": "tip rate", "value": 20, "unit": "%" },
+      { "id": "cash", "label": "cash", "value": 115, "unit": "$" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: about how big is a 20% tip on $100?",
+      "options": ["2¢", "$2", "$20", "$200"],
+      "answer": "$20",
+      "nudge": "Would you really hand the waiter two pennies on a $100 dinner? 20% is a fifth — a real chunk."
+    },
+    "steps": [
+      {
+        "prompt": "Turn “20% of $100” into math. Remember: % means ÷100, “of” means ×.",
+        "template": ["_", "÷ 100 ×", "_"],
+        "fill": ["tip", "bill"],
+        "calc": "20/100*100",
+        "result": 20,
+        "resultLabel": "tip = $20",
+        "say": "20% of $100 is $20. The sentence had the recipe inside it all along.",
+        "makes": { "id": "tipamt", "label": "tip", "value": 20, "unit": "$" }
+      },
+      {
+        "prompt": "Now add the tip to the bill.",
+        "template": ["_", "+", "_"],
+        "fill": ["bill", "tipamt"],
+        "calc": "100+20",
+        "result": 120,
+        "resultLabel": "total = $120",
+        "say": "Bill plus tip: $120 all-in.",
+        "makes": { "id": "total", "label": "total", "value": 120, "unit": "$" }
+      },
+      {
+        "choice": {
+          "prompt": "You have $115 in cash. Does it cover the $120 total?",
+          "options": ["Yes, it covers it", "Not quite"],
+          "answer": "Not quite",
+          "say": "$120 > $115 — about $5 short. Catching that BEFORE the check arrives is the superpower."
+        }
+      }
+    ],
+    "hints": [
+      "What does the % sign turn into? (÷ 100)",
+      "20 ÷ 100 = 0.20. Then “of $100” means × 100.",
+      "The tip is $20, so the total is $100 + $20 = $120. Compare that to $115."
+    ],
+    "success": "You caught that $115 wouldn't cover it. That's real-world math power."
+  },
+  {
+    "id": "tax-40",
+    "skill": "percent-of",
+    "theme": "restaurant",
+    "difficulty": 1,
+    "scenario": "Lunch costs $40. Tax is 10%. What's the total?",
+    "givens": [
+      { "id": "bill", "label": "lunch", "value": 40, "unit": "$" },
+      { "id": "tax", "label": "tax rate", "value": 10, "unit": "%" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: about how much tax lands on $40?",
+      "options": ["4¢", "$4", "$40"],
+      "answer": "$4",
+      "nudge": "10% = one decimal step left. $40 → $4.0 — four dollars, not four cents."
+    },
+    "steps": [
+      {
+        "prompt": "Find 10% of $40. (% means ÷100, “of” means ×)",
+        "template": ["_", "÷ 100 ×", "_"],
+        "fill": ["tax", "bill"],
+        "calc": "10/100*40",
+        "result": 4,
+        "resultLabel": "tax = $4",
+        "say": "Shortcut unlocked: 10% is just the decimal sliding one step left. $40 → $4.",
+        "makes": { "id": "taxamt", "label": "tax", "value": 4, "unit": "$" }
+      },
+      {
+        "prompt": "Add the tax to the lunch.",
+        "template": ["_", "+", "_"],
+        "fill": ["bill", "taxamt"],
+        "calc": "40+4",
+        "result": 44,
+        "resultLabel": "total = $44",
+        "say": "$44 total. Done in two clean moves."
+      }
+    ],
+    "hints": [
+      "10% means 10 ÷ 100 = 0.10.",
+      "0.10 × $40 = $4. Or slide the decimal: $40 → $4.0.",
+      "Total = lunch + tax = $40 + $4."
+    ],
+    "success": "Two steps, no drama. That 10% decimal-slide trick works on every bill you'll ever see."
+  },
+  {
+    "id": "tip15-60",
+    "skill": "percent-of",
+    "theme": "restaurant",
+    "difficulty": 3,
+    "scenario": "Dinner is $60 and the service was nice — you want to tip 15%. Pro trick: 15% = 10% plus half of that.",
+    "givens": [
+      { "id": "bill", "label": "dinner", "value": 60, "unit": "$" },
+      { "id": "tip", "label": "tip rate", "value": 15, "unit": "%" },
+      { "id": "tip10", "label": "easy piece", "value": 10, "unit": "%" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: a 15% tip on $60 is about…",
+      "options": ["90¢", "$9", "$90"],
+      "answer": "$9",
+      "nudge": "10% of $60 is already $6 — so 15% has to be MORE than $6, not less than a dollar."
+    },
+    "steps": [
+      {
+        "prompt": "Start with the easy piece: 10% of $60.",
+        "template": ["_", "÷ 100 ×", "_"],
+        "fill": ["tip10", "bill"],
+        "calc": "10/100*60",
+        "result": 6,
+        "resultLabel": "10% = $6",
+        "say": "Decimal slides left: $60 → $6.",
+        "makes": { "id": "ten", "label": "10% piece", "value": 6, "unit": "$" }
+      },
+      {
+        "prompt": "Half of that $6 gives you the extra 5%.",
+        "template": ["_", "÷ 2"],
+        "fill": ["ten"],
+        "calc": "6/2",
+        "result": 3,
+        "resultLabel": "5% = $3",
+        "say": "Half of the 10% piece = the 5% piece. Sneaky.",
+        "makes": { "id": "five", "label": "5% piece", "value": 3, "unit": "$" }
+      },
+      {
+        "prompt": "Put the pieces together: 10% + 5% = 15%.",
+        "template": ["_", "+", "_"],
+        "fill": ["ten", "five"],
+        "calc": "6+3",
+        "result": 9,
+        "resultLabel": "tip = $9",
+        "say": "$9 tip, and you never touched a calculator."
+      }
+    ],
+    "hints": [
+      "Get 10% first — slide the decimal: $60 → $6.",
+      "5% is exactly half of 10%. Half of $6…",
+      "10% piece + 5% piece: $6 + $3."
+    ],
+    "success": "15% split into easy pieces — waiters everywhere respect this move."
+  },
+  {
+    "id": "taxtip-60",
+    "skill": "percent-of",
+    "theme": "restaurant",
+    "difficulty": 3,
+    "scenario": "The bill is $60. Tax is 10%, and you want to leave a 20% tip. Trick of the day: the tip is exactly DOUBLE the tax.",
+    "givens": [
+      { "id": "bill", "label": "bill", "value": 60, "unit": "$" },
+      { "id": "tax", "label": "tax rate", "value": 10, "unit": "%" },
+      { "id": "tip", "label": "tip rate", "value": 20, "unit": "%" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: tax AND tip together add about how much to $60?",
+      "options": ["$1.80", "$18", "$180"],
+      "answer": "$18",
+      "nudge": "That's 30% total — almost a third of the bill. A third of $60 can't be two bucks."
+    },
+    "steps": [
+      {
+        "prompt": "Tax first: 10% of $60.",
+        "template": ["_", "÷ 100 ×", "_"],
+        "fill": ["tax", "bill"],
+        "calc": "10/100*60",
+        "result": 6,
+        "resultLabel": "tax = $6",
+        "say": "Decimal slide: $60 → $6.",
+        "makes": { "id": "taxamt", "label": "tax", "value": 6, "unit": "$" }
+      },
+      {
+        "prompt": "The 20% tip = double the tax. No new math needed!",
+        "template": ["2 ×", "_"],
+        "fill": ["taxamt"],
+        "calc": "2*6",
+        "result": 12,
+        "resultLabel": "tip = $12",
+        "say": "See it? 20% is just 10% twice. The tax already did the hard work.",
+        "makes": { "id": "tipamt", "label": "tip", "value": 12, "unit": "$" }
+      },
+      {
+        "prompt": "Grand total: bill + tax + tip.",
+        "template": ["_", "+", "_", "+", "_"],
+        "fill": ["bill", "taxamt", "tipamt"],
+        "calc": "60+6+12",
+        "result": 78,
+        "resultLabel": "total = $78",
+        "say": "$78 out the door. You just did a 3-part restaurant bill in your head."
+      }
+    ],
+    "hints": [
+      "10% of $60: slide the decimal one step left.",
+      "The tip rate (20%) is exactly twice the tax rate (10%) — so double the tax dollars.",
+      "Stack them: $60 + $6 + $12."
+    ],
+    "success": "The double-the-tax trick — you now know what half the adults in the restaurant are doing on their phones."
+  },
+  {
+    "id": "discount-25",
+    "skill": "percent-of",
+    "theme": "shopping",
+    "difficulty": 2,
+    "scenario": "A $25 shirt is on sale: 40% off. What do you actually pay?",
+    "givens": [
+      { "id": "price", "label": "price", "value": 25, "unit": "$" },
+      { "id": "off", "label": "discount", "value": 40, "unit": "%" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: about how much money comes OFF?",
+      "options": ["$1", "$10", "$100"],
+      "answer": "$10",
+      "nudge": "40% is almost half. Almost half of $25 is way more than a dollar."
+    },
+    "steps": [
+      {
+        "prompt": "How many dollars come off? Find 40% of $25.",
+        "template": ["_", "÷ 100 ×", "_"],
+        "fill": ["off", "price"],
+        "calc": "40/100*25",
+        "result": 10,
+        "resultLabel": "discount = $10",
+        "say": "40% of $25 is $10 off.",
+        "makes": { "id": "offamt", "label": "off", "value": 10, "unit": "$" }
+      },
+      {
+        "prompt": "“Off” means it LEAVES the price. Subtract.",
+        "template": ["_", "−", "_"],
+        "fill": ["price", "offamt"],
+        "calc": "25-10",
+        "result": 15,
+        "resultLabel": "you pay $15",
+        "say": "$15 at the register. The % found the discount; the subtraction found YOUR price."
+      }
+    ],
+    "hints": [
+      "First find the discount in dollars: 40 ÷ 100 × 25.",
+      "That's $10 off.",
+      "“Off” = subtract from the price: $25 − $10."
+    ],
+    "success": "Discounts decoded: percent finds the chunk, subtraction hands you the price."
+  },
+  {
+    "id": "sneakers-80",
+    "skill": "percent-of",
+    "theme": "shopping",
+    "difficulty": 2,
+    "scenario": "Sneakers cost $80, on sale at 25% off. You have $58. Enough?",
+    "givens": [
+      { "id": "price", "label": "price", "value": 80, "unit": "$" },
+      { "id": "off", "label": "discount", "value": 25, "unit": "%" },
+      { "id": "cash", "label": "cash", "value": 58, "unit": "$" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: 25% off $80 — about how much comes off?",
+      "options": ["$2", "$20", "$60"],
+      "answer": "$20",
+      "nudge": "25% is a quarter. Chop $80 into 4 equal pieces — each piece is way more than $2."
+    },
+    "steps": [
+      {
+        "prompt": "Find the discount: 25% of $80.",
+        "template": ["_", "÷ 100 ×", "_"],
+        "fill": ["off", "price"],
+        "calc": "25/100*80",
+        "result": 20,
+        "resultLabel": "discount = $20",
+        "say": "A quarter of $80 is $20 — 25% and 1/4 are the same costume.",
+        "makes": { "id": "offamt", "label": "off", "value": 20, "unit": "$" }
+      },
+      {
+        "prompt": "So what's the sale price?",
+        "template": ["_", "−", "_"],
+        "fill": ["price", "offamt"],
+        "calc": "80-20",
+        "result": 60,
+        "resultLabel": "sale price = $60",
+        "say": "$60 after the discount.",
+        "makes": { "id": "sale", "label": "sale price", "value": 60, "unit": "$" }
+      },
+      {
+        "choice": {
+          "prompt": "You have $58. The sneakers are $60. Enough?",
+          "options": ["Yes — grab them!", "Two dollars short 😭"],
+          "answer": "Two dollars short 😭",
+          "say": "SO close — $2 short. But you knew before the register did. That's the win."
+        }
+      }
+    ],
+    "hints": [
+      "25% is a quarter — a quarter of $80.",
+      "$20 comes off, so the shoes cost $80 − $20.",
+      "Sale price $60 vs. your $58 — compare."
+    ],
+    "success": "Heartbreak at the register, avoided in advance. Intuition: 1, impulse buy: 0."
+  },
+  {
+    "id": "students-200",
+    "skill": "percent-of",
+    "theme": "school",
+    "difficulty": 2,
+    "scenario": "Your school has 200 students. 45% play an instrument. How many kids is that?",
+    "givens": [
+      { "id": "kids", "label": "students", "value": 200, "unit": "" },
+      { "id": "pct", "label": "play music", "value": 45, "unit": "%" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: 45% is a bit less than half. So the answer is close to…",
+      "options": ["9 kids", "90 kids", "900 kids"],
+      "answer": "90 kids",
+      "nudge": "Half of 200 is 100 — and 45% is just under half. 9 kids would be less than 5%!"
+    },
+    "steps": [
+      {
+        "prompt": "Same recipe, no dollars this time: 45% of 200.",
+        "template": ["_", "÷ 100 ×", "_"],
+        "fill": ["pct", "kids"],
+        "calc": "45/100*200",
+        "result": 90,
+        "resultLabel": "90 students",
+        "say": "90 kids. The % recipe doesn't care if it's money, students, or pizzas."
+      }
+    ],
+    "hints": [
+      "% means ÷100: so 45 ÷ 100 first.",
+      "0.45 “of” 200 means × 200.",
+      "Sanity check: half of 200 is 100, and 45% is a bit under half."
+    ],
+    "success": "Percent works on anything you can count. Same move every time."
+  },
+  {
+    "id": "game-50",
+    "skill": "percent-of",
+    "theme": "shopping",
+    "difficulty": 3,
+    "scenario": "A game costs $50 at one store with 30% off. Another store sells it for a flat $38. Which is the better deal?",
+    "givens": [
+      { "id": "price", "label": "price", "value": 50, "unit": "$" },
+      { "id": "off", "label": "discount", "value": 30, "unit": "%" },
+      { "id": "flat", "label": "other store", "value": 38, "unit": "$" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: 30% off $50 — about how much comes off?",
+      "options": ["$1.50", "$15", "$150"],
+      "answer": "$15",
+      "nudge": "30% is almost a third. A third of $50 is definitely more than pocket change."
+    },
+    "steps": [
+      {
+        "prompt": "Find the discount at store one: 30% of $50.",
+        "template": ["_", "÷ 100 ×", "_"],
+        "fill": ["off", "price"],
+        "calc": "30/100*50",
+        "result": 15,
+        "resultLabel": "discount = $15",
+        "say": "$15 off at store one.",
+        "makes": { "id": "offamt", "label": "off", "value": 15, "unit": "$" }
+      },
+      {
+        "prompt": "So store one charges…",
+        "template": ["_", "−", "_"],
+        "fill": ["price", "offamt"],
+        "calc": "50-15",
+        "result": 35,
+        "resultLabel": "store one = $35",
+        "say": "$35 after the discount.",
+        "makes": { "id": "sale", "label": "store one", "value": 35, "unit": "$" }
+      },
+      {
+        "choice": {
+          "prompt": "Store one: $35. Store two: $38. Where do you buy?",
+          "options": ["Store one — the 30%-off one", "Store two — the flat $38"],
+          "answer": "Store one — the 30%-off one",
+          "say": "$35 beats $38. A flashy “% off” isn't automatically better — but today it was, and you PROVED it."
+        }
+      }
+    ],
+    "hints": [
+      "Work out what 30% off actually costs: 30 ÷ 100 × 50.",
+      "$15 off means store one charges $50 − $15.",
+      "Now it's just $35 vs $38."
+    ],
+    "success": "You turned a marketing trick into a plain number comparison. Stores fear you now."
+  }
+]

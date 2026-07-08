@@ -29,6 +29,11 @@ Five diagnosed failure modes (every mechanic below maps to one or more):
 | **P6** | **Inverse operations not automatic** — doesn't see ÷ as the undo of ×, +/− as complements | didn't realize dividing both sides by 11/3 (or ×3 then ÷11) frees `x` |
 | **P7** | **Strategy and mechanics entangled** — knows the goal ("get x alone") but each move's arithmetic derails the plan | a full solve-for-x needed coaching at *every* step; page covered in erasures |
 | **P8** | **No verify-by-substitution reflex** — checking the answer isn't part of "done" | never thought to plug x=5 back into the original equation |
+| **P9** | **Brackets & sign flips** — a minus in front of a bracket doesn't flip the signs inside; nested brackets have no inside-out order; combining terms across zero (`x − 3x = −2x`) fails | `Simplify 3 + (2x − (x + 3(−x+2))) + 3` stumped her entirely |
+
+P9 drills live in the Move Gym (§4.8): "open the minus-bracket — flip every sign" is a move card,
+nested brackets teach the inside-out ("untie the deepest knot first") order, and `x − 3x = −2x` is
+both an SRS fact and a combine-terms move. Note `x = 1x` (a costume, §4.1) is the same root gap.
 
 Also missing: **rules of thumb** ("% means ÷100", "of means ×", "shift decimal left = ÷10"). The dad
 already taught "X% of Y = (X÷100) × Y" verbally — the app's job is to make it *muscle memory*.

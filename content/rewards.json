@@ -1,0 +1,20 @@
+{
+  "coupons": [
+    { "id": "hug-dad", "label": "A hug from Dad 🤗" },
+    { "id": "miniso", "label": "One Miniso trip 🧸" },
+    { "id": "dinner-pick", "label": "You pick dinner tonight 🍜" },
+    { "id": "dessert", "label": "Dessert of your choice 🍦" },
+    { "id": "movie-night", "label": "Family movie night — you choose 🎬" },
+    { "id": "late-30", "label": "Stay up 30 minutes later 🌙" }
+  ],
+  "cosmetics": [
+    { "id": "bow", "label": "A bow for Pai 🎀", "xp": 50 },
+    { "id": "glasses", "label": "Tiny glasses for Pai 👓", "xp": 120 },
+    { "id": "crown", "label": "A crown for Pai 👑", "xp": 250 },
+    { "id": "wizard", "label": "Wizard hat for Pai 🧙", "xp": 400 }
+  ],
+  "schedule": {
+    "chance": 0.2,
+    "streakMilestones": [3, 7, 14, 30, 60, 100]
+  }
+}

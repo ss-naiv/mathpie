@@ -1,0 +1,28 @@
+{
+  "facts": [
+    { "id": "ft-per-mile", "front": "How many feet in a mile?", "choices": ["528", "5,280", "52,800"], "answer": "5,280" },
+    { "id": "pct-means", "front": "What does the % sign mean, as math?", "choices": ["÷ 100", "× 100", "+ 100"], "answer": "÷ 100" },
+    { "id": "of-means", "front": "In a math sentence, what does “of” mean? (like 20% OF $50)", "choices": ["× (multiply)", "÷ (divide)", "− (subtract)"], "answer": "× (multiply)" },
+    { "id": "div-10", "front": "Dividing by 10 moves the decimal point…", "choices": ["one step LEFT", "one step RIGHT", "nowhere"], "answer": "one step LEFT" },
+    { "id": "ten-pct-80", "front": "10% of $80 is…", "choices": ["$8", "80¢", "$18"], "answer": "$8" },
+    { "id": "undo-times-3", "front": "What UNDOES multiplying by 3?", "choices": ["dividing by 3", "multiplying by 3", "subtracting 3"], "answer": "dividing by 3" },
+    { "id": "undo-plus-5", "front": "What UNDOES adding 5?", "choices": ["subtracting 5", "adding 5", "dividing by 5"], "answer": "subtracting 5" },
+    { "id": "minus-bracket", "front": "A minus sign in front of a bracket, like −(x − 4), does what?", "choices": ["flips EVERY sign inside", "flips only the first sign", "nothing special"], "answer": "flips EVERY sign inside" },
+    { "id": "x-minus-3x", "front": "x − 3x = ?", "choices": ["−2x", "2x", "−3"], "answer": "−2x" },
+    { "id": "x-is-1x", "front": "Plain x is the same as…", "choices": ["1x", "0x", "x has no number"], "answer": "1x" },
+    { "id": "seven-frac", "front": "The whole number 7, written as a fraction, is…", "choices": ["7/1", "1/7", "7/10"], "answer": "7/1" },
+    { "id": "half-pct", "front": "1/2 written as a percent is…", "choices": ["50%", "12%", "2%"], "answer": "50%" },
+    { "id": "quarter-dec", "front": "1/4 written as a decimal is…", "choices": ["0.25", "0.4", "2.5"], "answer": "0.25" },
+    { "id": "three-quarter-pct", "front": "3/4 written as a percent is…", "choices": ["75%", "34%", "43%"], "answer": "75%" },
+    { "id": "twenty-pct-frac", "front": "20% is the same as which fraction?", "choices": ["1/5", "1/2", "2/5"], "answer": "1/5" },
+    { "id": "undo-times-frac", "front": "What UNDOES multiplying by 11/3?", "choices": ["multiplying by 3/11 (the flip)", "multiplying by 11/3 again", "subtracting 11/3"], "answer": "multiplying by 3/11 (the flip)" }
+  ],
+  "ballparks": [
+    { "prompt": "Ballpark it: 10% of $50 is about…", "options": ["50¢", "$5", "$50"], "answer": "$5", "nudge": "10% = one decimal step left: $50 → $5.0" },
+    { "prompt": "Ballpark it: a 20% tip on a $40 pizza night is about…", "options": ["80¢", "$8", "$80"], "answer": "$8", "nudge": "20% is a fifth. A fifth of $40 can't be less than a dollar!" },
+    { "prompt": "Ballpark it: half off a $90 jacket leaves it costing about…", "options": ["$4.50", "$45", "$85"], "answer": "$45", "nudge": "Half off means you pay half. Half of $90…" },
+    { "prompt": "Ballpark it: 25% of 80 is about…", "options": ["2", "20", "60"], "answer": "20", "nudge": "25% is a quarter — cut 80 into 4 equal pieces." },
+    { "prompt": "Ballpark it: roughly 10% tax on a $200 cart adds about…", "options": ["$2", "$20", "$200"], "answer": "$20", "nudge": "10% = one decimal step left: $200 → $20.0" },
+    { "prompt": "Ballpark it: a 15% tip on a $60 dinner is about…", "options": ["90¢", "$9", "$90"], "answer": "$9", "nudge": "10% of $60 is $6 — and 15% is a bit more than that." }
+  ]
+}

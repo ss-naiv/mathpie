@@ -1,0 +1,9 @@
+[
+  { "id": "warmup", "name": "Warm-up", "emoji": "☀️", "unlocked": true },
+  { "id": "percent-of", "name": "Percent Power", "emoji": "💯", "unlocked": true },
+  { "id": "move-gym", "name": "Equation Move Gym", "emoji": "🏋️", "unlocked": true },
+  { "id": "fraction-costumes", "name": "Costume Closet", "emoji": "🎭", "unlocked": false },
+  { "id": "decimal-elevator", "name": "Decimal Elevator", "emoji": "🛗", "unlocked": false },
+  { "id": "ratio-proportion", "name": "Recipes & Maps", "emoji": "🗺️", "unlocked": false },
+  { "id": "y-do-we-care", "name": "Y Do We Care Island", "emoji": "🏝️", "unlocked": false }
+]

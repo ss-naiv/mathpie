@@ -1,0 +1,56 @@
+{
+  "mascotName": "Pai",
+  "welcome": [
+    "Hi! Ready for a tiny math snack? 🥧",
+    "Pai's here. No grades, no timers — just us.",
+    "Ten minutes. That's the whole deal.",
+    "Back again! Your streak missed you."
+  ],
+  "success": [
+    "Nailed it!",
+    "That's the stuff!",
+    "See? Your brain already knew.",
+    "Chef's kiss 🤌",
+    "+1 intuition point",
+    "Smooth. Very smooth.",
+    "You made that look easy."
+  ],
+  "tryAgain": [
+    "Hmm — let's look again. No biggie.",
+    "Close! One more peek.",
+    "Wrong turn, same road. Go again.",
+    "Even calculators mash the wrong button sometimes.",
+    "Take two — the problem isn't going anywhere."
+  ],
+  "hintIntro": [
+    "Psst — want a nudge?",
+    "Pai has a thought…"
+  ],
+  "gymGood": [
+    "Good call.",
+    "That's the move.",
+    "x is getting lonelier — exactly what we want.",
+    "The equation just got friendlier.",
+    "Clean. Very clean."
+  ],
+  "gymSoft": [
+    "Totally legal move — just not the fastest road. Undo and try another?",
+    "Hmm, did that get us closer to x alone? Undo is free.",
+    "No harm done — undo and pick again."
+  ],
+  "proveIt": [
+    "Moment of truth — plug it back in!",
+    "Prove it, champ!",
+    "Don't trust me — check it yourself."
+  ],
+  "wrap": [
+    "Done for today! Come back tomorrow — Pai will be here. 🐯",
+    "Streak safe. Brain bigger. Go live your life ✌️",
+    "That's the session! Short and sweet, like a good dessert."
+  ],
+  "ballparkRight": [
+    "Your gut is calibrated. Now let's get exact.",
+    "Good instincts — the exact answer will be close to that.",
+    "Reasonable! That's the most underrated math skill on Earth."
+  ]
+}

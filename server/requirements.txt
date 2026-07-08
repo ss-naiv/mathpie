@@ -1,0 +1,5 @@
+# For standalone deploys of the tutor proxy (Fly.io, Render, etc.).
+# Local dev: prefer `pip install -e ".[tutor]"` from the repo root.
+fastapi>=0.110
+uvicorn[standard]>=0.29
+anthropic>=0.40

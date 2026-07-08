@@ -1,9 +1,22 @@
-# server/ — live tutor proxy (NOW PHASE 1 — decision updated July 2026, see DESIGN.md §7)
+# server/ — live tutor proxy (built; deploy when ready)
 
-This holds the "talk me through it" tutor proxy. Originally deferred to Phase 4; pulled into Phase 1
-after real homework showed coached equation-solving needs responses to *her actual wrong step*,
-which canned hints can't anticipate. Model: **`claude-sonnet-5`**. The app must stay fully playable
-when this proxy is unreachable (offline/off-budget → tutor button grays out, canned hints remain).
+FastAPI proxy powering the "Ask Pai" button. Model: **`claude-sonnet-5`**. The app is fully playable
+without it (offline/off-budget → canned hints remain), and the button only appears once a tutor URL
+is saved in the app's Settings (⚙️).
+
+## Run locally
+```bash
+pip install -e ".[tutor]"        # from the repo root
+ANTHROPIC_API_KEY=sk-ant-... uvicorn server.main:app --port 8787
+# then in the app: Settings ⚙️ → tutor URL → http://localhost:8787 → Test connection
+```
+
+## Deploy (pick one)
+- **Fly.io:** `fly launch` in this dir (uses requirements.txt), set `fly secrets set ANTHROPIC_API_KEY=...`
+- **Vercel:** expose `server.main:app` via a Python serverless function; set the key in project env vars.
+
+After deploying, paste the URL into the app's Settings on the iPad. Endpoints: `GET /health`,
+`POST /tutor` (SSE stream of JSON-encoded text chunks, `data: [DONE]` terminator).
 
 ## Why a server at all
 The static app can't hold the Anthropic key (a public site can't keep a secret). So the live tutor
