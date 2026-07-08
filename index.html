@@ -102,7 +102,7 @@ p{margin:8px 0}
 .modal{position:fixed;inset:0;background:rgba(60,40,20,.45);display:none;z-index:100;
   align-items:center;justify-content:center;padding:20px}
 .modal.open{display:flex}
-.modal .card{max-width:480px;width:100%;margin:0}
+.modal .card{max-width:480px;width:100%;margin:0;max-height:85vh;overflow-y:auto}
 input[type=url],input[type=text]{width:100%;padding:12px;border-radius:12px;border:2px solid var(--chip-border);
   font-size:16px;font-family:inherit}
 .progress{height:8px;background:var(--soft);border-radius:99px;margin:6px 0 14px;overflow:hidden}
@@ -133,6 +133,7 @@ input[type=url],input[type=text]{width:100%;padding:12px;border-radius:12px;bord
   <section id="scr-shelf"></section>
   <section id="scr-elevator"></section>
   <section id="scr-tricks"></section>
+  <section id="scr-progress"></section>
 </div>
 
 <div class="mascot"><div class="mascot-inner">
@@ -170,7 +171,12 @@ input[type=url],input[type=text]{width:100%;padding:12px;border-radius:12px;bord
     <input type="url" id="tutorUrlInput" placeholder="https://your-tutor.example.com">
     <button class="btn small soft" id="testTutorBtn">Test connection</button>
     <span id="tutorTestResult" class="muted"></span>
-    <button class="btn" id="saveSettingsBtn">Save</button>
+    <h2 style="margin-top:18px">🎟️ Coupon list</h2>
+    <p class="muted">These are the rewards that can drop after sessions. Edit away — make them yours!</p>
+    <div id="couponEditor"></div>
+    <input type="text" id="newCouponInput" placeholder="New coupon, e.g. Boba run 🧋" maxlength="60">
+    <button class="btn small soft" id="addCouponBtn">＋ Add coupon</button>
+    <button class="btn" id="saveSettingsBtn">Save &amp; close</button>
     <button class="btn small soft" id="resetBtn">Reset all progress…</button>
     <button class="btn small soft" id="closeSettingsBtn">Close</button>
   </div>
@@ -188,6 +194,8 @@ function defaults(){ return {
   xp:0, streak:0, lastDay:null, doneToday:{}, doneDay:null,
   srs:{}, usedProblems:[], usedEquations:[],
   coupons:[], cosmetics:[], activeCosmetic:null, milestonesClaimed:{},
+  stats:{warmups:0, quests:0, gyms:0, elevators:0},
+  couponPool:null, lastShareNudge:null, tricksTried:{},
   settings:{tutorUrl:''}
 };}
 function loadState(){
@@ -270,6 +278,7 @@ function renderHome(){
       html += '<button class="skilltile locked"><span class="emoji">'+sk.emoji+'</span><span>'+esc(sk.name)+'<span class="sub">Coming soon</span></span></button>';
   }
   html += '<button class="skilltile" data-go="shelf"><span class="emoji">🎁</span><span>Reward Shelf<span class="sub">Coupons &amp; looks for '+esc(C.enc.mascotName)+'</span></span></button>';
+  html += '<button class="skilltile" data-go="progress"><span class="emoji">📈</span><span>My Progress<span class="sub">Streak, strong facts &amp; share with Dad</span></span></button>';
   $('scr-home').innerHTML = html;
 
   $('startSessionBtn').onclick = ()=>{ sessionMode = true; startWarmup(); };
@@ -285,6 +294,7 @@ function renderHome(){
       else if (go==='elevator') startElevator();
       else if (go==='tricks') renderTricks();
       else if (go==='shelf') renderShelf();
+      else if (go==='progress') renderProgress();
     };
   });
   show('scr-home');
@@ -352,7 +362,9 @@ function srsMark(id, correct){
 function nextWarmupCard(){
   WU.i++;
   if (WU.i < WU.cards.length) return renderWarmupCard();
-  if (!S.doneToday.warmup){ S.doneToday.warmup = true; addXp(5); save(); }
+  S.stats.warmups++;
+  if (!S.doneToday.warmup){ S.doneToday.warmup = true; addXp(5); }
+  save();
   if (sessionMode) startQuest(); else renderHome();
 }
 
@@ -484,6 +496,7 @@ function renderChoiceStep(s){
 function questSuccess(){
   const p = Q.p;
   S.usedProblems.push(p.id);
+  S.stats.quests++;
   if (!S.doneToday.quest){ S.doneToday.quest = true; addXp(10); }
   bumpStreak(); save();
   confetti();
@@ -578,6 +591,7 @@ function renderProveIt(){
 }
 function gymSuccess(){
   S.usedEquations.push(G.e.id);
+  S.stats.gyms++;
   if (!S.doneToday.gym){ S.doneToday.gym = true; addXp(10); }
   bumpStreak(); save();
   say(pick(C.enc.success), 'happy');
@@ -609,17 +623,23 @@ function renderWrap(){
   for (const e of earned){
     html += '<div class="ticket">'+(e.type==='cosmetic'?'New look unlocked! ':'🎟️ Coupon earned! ')+esc(e.label)+'</div>';
   }
+  const daysSinceNudge = S.lastShareNudge
+    ? Math.floor((Date.now() - new Date(S.lastShareNudge)) / 864e5) : 99;
+  const nudge = S.streak >= 3 && daysSinceNudge >= 7;
+  if (nudge) html += '<button class="btn soft" id="wrapShare">📤 Send Dad this week\'s progress</button>';
   html += '<button class="btn" id="wrapHome">Done ✌️</button></div>';
   $('scr-wrap').innerHTML = html;
   show('scr-wrap');
   if (earned.length) confetti();
   say(pick(C.enc.wrap), 'happy');
+  if (nudge) $('wrapShare').onclick = shareProgress;
   $('wrapHome').onclick = renderHome;
 }
 function awardCoupon(){
-  const c = pick(C.rewards.coupons);
-  S.coupons.push({ id:c.id, label:c.label, earned: todayStr(), redeemed:false });
-  return { type:'coupon', label:c.label };
+  const pool = (S.couponPool && S.couponPool.length) ? S.couponPool : C.rewards.coupons.map(c=>c.label);
+  const label = pick(pool);
+  S.coupons.push({ label, earned: todayStr(), redeemed:false });
+  return { type:'coupon', label };
 }
 
 /* ---------------- reward shelf ---------------- */
@@ -715,7 +735,9 @@ function evMove(fn){
     setTimeout(()=>{
       EV.i++;
       if (EV.i < C.elevator.challenges.length) return renderElevator(true);
-      if (!S.doneToday.elevator){ S.doneToday.elevator = true; addXp(5); save(); }
+      S.stats.elevators++;
+      if (!S.doneToday.elevator){ S.doneToday.elevator = true; addXp(5); }
+      save();
       confetti();
       $('scr-elevator').innerHTML = '<div class="card center"><h2>Elevator mastered! 🛗</h2>'+
         '<p>×10, ÷10, 10%, 1%, percent→decimal — all one ride now.</p>'+
@@ -766,6 +788,63 @@ function renderTricks(){
   say('Tricks are cheat codes you\'ve EARNED — because you know why they work.', 'happy');
 }
 
+/* ---------------- progress & sharing ---------------- */
+function progressSnapshot(){
+  const strong = [], working = [], tricky = [];
+  for (const f of C.facts.facts){
+    const st = S.srs[f.id];
+    if (!st) continue;
+    (st.box >= 3 ? strong : st.box >= 1 ? working : tricky).push(f.front);
+  }
+  const unseen = C.facts.facts.length - strong.length - working.length - tricky.length;
+  return { strong, working, tricky, unseen,
+    tricks: Object.keys(S.tricksTried || {}).length,
+    coupons: S.coupons.length };
+}
+function progressText(){
+  const p = progressSnapshot();
+  const shorten = a => a.slice(0,3).map(t=>'“'+t.replace(/…$/,'')+'”').join(', ');
+  let t = 'MathPie progress 🥧\n';
+  t += '🔥 Streak: '+S.streak+' days · ⭐ '+S.xp+' XP\n';
+  t += '✅ Quests: '+S.stats.quests+' · 🏋️ Gym solves: '+S.stats.gyms+' · ☀️ Warm-ups: '+S.stats.warmups+' · 🛗 Elevator runs: '+S.stats.elevators+'\n';
+  t += '💪 Strong facts: '+p.strong.length+(p.strong.length?' (e.g. '+shorten(p.strong)+')':'')+'\n';
+  if (p.tricky.length) t += '🌱 Still cooking: '+shorten(p.tricky)+'\n';
+  t += '🪄 Tricks learned: '+p.tricks+' · 🎟️ Coupons earned: '+p.coupons;
+  return t;
+}
+async function shareProgress(){
+  const text = progressText();
+  if (navigator.share){
+    try { await navigator.share({ text }); S.lastShareNudge = todayStr(); save(); return; }
+    catch(e){ /* user cancelled — fall through quietly */ return; }
+  }
+  location.href = 'mailto:?subject=' + encodeURIComponent('MathPie progress') +
+    '&body=' + encodeURIComponent(text);
+  S.lastShareNudge = todayStr(); save();
+}
+function renderProgress(){
+  const p = progressSnapshot();
+  let html = '<div class="card center"><h2>📈 My Progress</h2>';
+  html += '<p style="font-size:34px;margin:6px">🔥 '+S.streak+' &nbsp; ⭐ '+S.xp+'</p>';
+  html += '<p class="muted">'+S.stats.quests+' quests · '+S.stats.gyms+' gym solves · '+S.stats.warmups+' warm-ups · '+S.stats.elevators+' elevator runs</p>';
+  html += '<button class="btn" id="shareBtn">📤 Send to Dad</button></div>';
+  const section = (title, items, empty) => {
+    let h = '<div class="card"><h2>'+title+'</h2>';
+    h += items.length ? items.map(t=>'<div class="coupon-row"><span>'+esc(t)+'</span></div>').join('')
+                      : '<p class="muted">'+empty+'</p>';
+    return h + '</div>';
+  };
+  html += section('💪 Strong ('+p.strong.length+')', p.strong, 'Nothing locked in yet — the streak takes care of this.');
+  html += section('🌱 Still cooking ('+p.tricky.length+')', p.tricky, 'Nothing stuck in the tricky pile. Nice.');
+  html += '<div class="card"><p class="muted">🔁 In progress: '+p.working.length+' facts · 🆕 Not yet seen: '+p.unseen+' · 🪄 Tricks: '+p.tricks+'/'+C.tricks.length+'</p></div>';
+  html += '<button class="btn soft" id="progressHome">Home</button>';
+  $('scr-progress').innerHTML = html;
+  show('scr-progress');
+  $('shareBtn').onclick = shareProgress;
+  $('progressHome').onclick = renderHome;
+  say('Look at all that. Slow and steady — my favorite speed.', 'happy');
+}
+
 /* ---------------- tutor (optional streaming proxy) ---------------- */
 async function askTutor(ctx){
   const url = S.settings.tutorUrl.replace(/\/+$/,'');
@@ -798,8 +877,31 @@ async function askTutor(ctx){
 }
 
 /* ---------------- settings ---------------- */
+function renderCouponEditor(){
+  const pool = S.couponPool || [];
+  $('couponEditor').innerHTML = pool.map((label,i)=>
+    '<div class="coupon-row"><span>'+esc(label)+'</span>'+
+    '<button class="btn small soft" data-delcoupon="'+i+'">✕</button></div>'
+  ).join('') || '<p class="muted">No coupons — add some below!</p>';
+  document.querySelectorAll('[data-delcoupon]').forEach(b=>{
+    b.onclick = ()=>{ S.couponPool.splice(Number(b.getAttribute('data-delcoupon')),1); save(); renderCouponEditor(); };
+  });
+}
 function wireSettings(){
-  $('gearBtn').onclick = ()=>{ $('tutorUrlInput').value = S.settings.tutorUrl; $('tutorTestResult').textContent=''; $('settingsModal').classList.add('open'); };
+  $('gearBtn').onclick = ()=>{
+    $('tutorUrlInput').value = S.settings.tutorUrl;
+    $('tutorTestResult').textContent='';
+    renderCouponEditor();
+    $('settingsModal').classList.add('open');
+  };
+  $('addCouponBtn').onclick = ()=>{
+    const v = $('newCouponInput').value.trim();
+    if (!v) return;
+    S.couponPool = S.couponPool || [];
+    S.couponPool.push(v); save();
+    $('newCouponInput').value = '';
+    renderCouponEditor();
+  };
   $('closeSettingsBtn').onclick = ()=> $('settingsModal').classList.remove('open');
   $('saveSettingsBtn').onclick = ()=>{
     S.settings.tutorUrl = $('tutorUrlInput').value.trim(); save();
@@ -832,6 +934,7 @@ async function boot(){
       'Try <code>node tools/serve.js</code> in the app folder, or use the web link.</p></div>';
     return;
   }
+  if (!S.couponPool){ S.couponPool = C.rewards.coupons.map(c=>c.label); save(); }
   renderHeader(); renderHat(); wireSettings(); renderHome();
   if ('serviceWorker' in navigator){
     navigator.serviceWorker.register('./sw.js').catch(()=>{});

@@ -11,9 +11,21 @@ ANTHROPIC_API_KEY=sk-ant-... uvicorn server.main:app --port 8787
 # then in the app: Settings ⚙️ → tutor URL → http://localhost:8787 → Test connection
 ```
 
-## Deploy (pick one)
-- **Fly.io:** `fly launch` in this dir (uses requirements.txt), set `fly secrets set ANTHROPIC_API_KEY=...`
-- **Vercel:** expose `server.main:app` via a Python serverless function; set the key in project env vars.
+## Deploy — Fly.io (Dockerfile + fly.toml are ready in this directory)
+
+```bash
+brew install flyctl
+fly auth signup                    # or `fly auth login` if you have an account
+cd ~/Documents/Github/mathpie/server
+fly launch --copy-config --no-deploy   # accepts the fly.toml as-is; say no to extras
+fly secrets set ANTHROPIC_API_KEY=sk-ant-...
+fly deploy
+curl https://mathpie-tutor.fly.dev/health   # → {"ok":true}
+```
+
+Scale-to-zero: costs ~nothing idle; first tutor call after a quiet spell takes a few seconds to
+wake. Then on the iPad: **⚙️ Settings → tutor URL → `https://mathpie-tutor.fly.dev` → Test
+connection → Save.** (If `mathpie-tutor` is taken, fly will suggest a name — use that URL instead.)
 
 After deploying, paste the URL into the app's Settings on the iPad. Endpoints: `GET /health`,
 `POST /tutor` (SSE stream of JSON-encoded text chunks, `data: [DONE]` terminator).
