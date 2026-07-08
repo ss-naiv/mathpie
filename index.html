@@ -76,6 +76,18 @@ p{margin:8px 0}
 .hat{font-size:26px;position:absolute;transform:translate(28px,-6px)}
 .prove-line{background:var(--soft);border-radius:12px;padding:10px 14px;margin:8px 0;
   font-weight:700;animation:pop .3s}
+.whyline{background:#F3F8EE;border-left:4px solid var(--good);border-radius:10px;
+  padding:10px 12px;font-size:15px;margin:10px 0}
+.bignum{font-size:46px;font-weight:800;text-align:center;letter-spacing:2px;
+  padding:18px 8px;background:var(--soft);border-radius:16px;margin:12px 0;
+  font-variant-numeric:tabular-nums;overflow-x:auto}
+.bignum.pop{animation:pop .25s}
+.elevbtns{display:flex;gap:12px;justify-content:center;margin:10px 0}
+.elevbtns .btn{width:auto;flex:1;max-width:170px;font-size:22px}
+.trickcard{border:2px solid var(--chip-border);border-radius:16px;padding:14px 16px;margin:12px 0}
+.trickcard.locked{opacity:.55;border-style:dashed}
+.trickcard h3{margin:0 0 6px;font-size:18px}
+.trickcard .why{background:#F3F8EE;border-radius:10px;padding:8px 12px;font-size:14px;margin:8px 0}
 .ticket{background:linear-gradient(135deg,#FFE9A8,#FFD07A);border:2px dashed #C99B3F;
   border-radius:16px;padding:16px;text-align:center;font-weight:800;font-size:19px;
   margin:12px 0;animation:pop .5s}
@@ -119,6 +131,8 @@ input[type=url],input[type=text]{width:100%;padding:12px;border-radius:12px;bord
   <section id="scr-gym"></section>
   <section id="scr-wrap"></section>
   <section id="scr-shelf"></section>
+  <section id="scr-elevator"></section>
+  <section id="scr-tricks"></section>
 </div>
 
 <div class="mascot"><div class="mascot-inner">
@@ -246,6 +260,10 @@ function renderHome(){
       html += '<button class="skilltile" data-go="warmup"><span class="emoji">'+sk.emoji+'</span><span>'+esc(sk.name)+(done.warmup?' ✓':'')+'<span class="sub">'+esc(sk.sub||'')+'</span></span></button>';
     else if (sk.id==='move-gym')
       html += '<button class="skilltile" data-go="gym"><span class="emoji">'+sk.emoji+'</span><span>'+esc(sk.name)+(done.gym?' ✓':'')+'<span class="sub">'+esc(sk.sub||'')+'</span></span></button>';
+    else if (sk.id==='decimal-elevator' && sk.unlocked)
+      html += '<button class="skilltile" data-go="elevator"><span class="emoji">'+sk.emoji+'</span><span>'+esc(sk.name)+(done.elevator?' ✓':'')+'<span class="sub">'+esc(sk.sub||'')+'</span></span></button>';
+    else if (sk.id==='trick-book' && sk.unlocked)
+      html += '<button class="skilltile" data-go="tricks"><span class="emoji">'+sk.emoji+'</span><span>'+esc(sk.name)+'<span class="sub">'+esc(sk.sub||'')+'</span></span></button>';
     else if (sk.unlocked && sk.questSkills)
       html += '<button class="skilltile" data-go="quest" data-skillgroup="'+esc(sk.id)+'"><span class="emoji">'+sk.emoji+'</span><span>'+esc(sk.name)+(done.quest?' ✓':'')+'<span class="sub">'+esc(sk.sub||'')+'</span></span></button>';
     else
@@ -264,6 +282,8 @@ function renderHome(){
         startQuest(grp ? grp.questSkills : null);
       }
       else if (go==='gym') startGym();
+      else if (go==='elevator') startElevator();
+      else if (go==='tricks') renderTricks();
       else if (go==='shelf') renderShelf();
     };
   });
@@ -478,7 +498,7 @@ function questSuccess(){
 let G = null;
 function startGym(){
   const e = pickFrom(C.equations, 'usedEquations');
-  G = { e, state: e.start, detour: null, moved: 0 };
+  G = { e, state: e.start, detour: null, moved: 0, lastNote: null };
   renderGym();
   show('scr-gym');
   say('Goal: '+ (e.goal==='Simplify' ? 'squash this down to its simplest self.' : 'get x standing alone. Pick the move — I\'ll do the arithmetic.'));
@@ -494,6 +514,10 @@ function renderGym(){
     if (S.settings.tutorUrl) html += '<button class="btn small soft" id="gymTutorBtn">🐯 Ask '+esc(C.enc.mascotName)+'</button>';
   } else {
     html += '<div class="eq">'+esc(st.eq)+'</div>';
+    if (G.moved === 0 && e.plan)
+      html += '<p class="whyline">🧭 <b>The plan:</b> '+esc(e.plan)+'</p>';
+    else if (G.lastNote)
+      html += '<p class="whyline">💡 <b>Why that worked:</b> '+esc(G.lastNote)+'</p>';
     html += '<p class="muted center">Pick your move:</p>';
     shuffle(st.moves.map((m,i)=>i)).forEach(i=>{
       html += '<button class="btn opt" data-mi="'+i+'">'+esc(st.moves[i].label)+'</button>';
@@ -515,6 +539,7 @@ function renderGym(){
       G.moved++;
       if (m.good){
         G.state = m.to;
+        G.lastNote = m.note;
         say(m.note, 'happy');
         if (e.states[m.to].win) return renderProveIt();
         renderGym();
@@ -635,6 +660,112 @@ function renderHat(){
   $('paiHat').textContent = S.activeCosmetic ? (hats[S.activeCosmetic]||'') : '';
 }
 
+/* ---------------- decimal elevator ---------------- */
+// Value is (digit string, decimal places) — sliding is exact, no float math ever.
+let EV = null;
+function evParse(s){
+  const i = s.indexOf('.');
+  return i < 0 ? { d: s, dp: 0 } : { d: s.replace('.',''), dp: s.length - i - 1 };
+}
+function evDisplay(v){
+  let d = v.d.replace(/^0+/, '') || '0', dp = v.dp;
+  if (dp === 0) return d;
+  while (d.length <= dp) d = '0' + d;          // pad so the point has a digit before it
+  let out = d.slice(0, d.length - dp) + '.' + d.slice(d.length - dp);
+  out = out.replace(/\.?0+$/, '');             // canonical: 9.0 → 9, 0.50 → 0.5
+  return out;
+}
+function evTimes10(v){ return v.dp > 0 ? { d: v.d, dp: v.dp - 1 } : { d: v.d + '0', dp: 0 }; }
+function evDiv10(v){ return { d: v.d, dp: v.dp + 1 }; }
+
+function startElevator(){
+  EV = { i: 0, v: null };
+  say(C.elevator.intro);
+  renderElevator(true);
+  show('scr-elevator');
+}
+function renderElevator(fresh){
+  const ch = C.elevator.challenges[EV.i];
+  if (fresh) EV.v = evParse(ch.start);
+  let html = '<div class="card"><p class="muted">Decimal Elevator · '+(EV.i+1)+' of '+C.elevator.challenges.length+'</p>';
+  html += '<h2>'+esc(ch.prompt)+'</h2>';
+  html += '<div class="bignum pop" id="evNum">'+esc(evDisplay(EV.v))+'</div>';
+  html += '<div class="elevbtns"><button class="btn soft" id="evDown">÷10 ⬇️</button><button class="btn soft" id="evUp">×10 ⬆️</button></div>';
+  html += '<p class="muted center">Target: <b>'+esc(ch.target)+'</b> — the digits never change, only their seats.</p>';
+  html += '</div>';
+  $('scr-elevator').innerHTML = html;
+  $('evUp').onclick = ()=>evMove(evTimes10);
+  $('evDown').onclick = ()=>evMove(evDiv10);
+}
+function evMove(fn){
+  const ch = C.elevator.challenges[EV.i];
+  const next = fn(EV.v);
+  if (next.d.length > 8 || next.dp > 5){
+    $('evNum').classList.add('wiggle');
+    setTimeout(()=>$('evNum').classList.remove('wiggle'), 400);
+    say('Whoa, too far that way — ride back!');
+    return;
+  }
+  EV.v = next;
+  const el = $('evNum');
+  el.textContent = evDisplay(EV.v);
+  el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop');
+  if (evDisplay(EV.v) === ch.target){
+    say(ch.say, 'happy');
+    setTimeout(()=>{
+      EV.i++;
+      if (EV.i < C.elevator.challenges.length) return renderElevator(true);
+      if (!S.doneToday.elevator){ S.doneToday.elevator = true; addXp(5); save(); }
+      confetti();
+      $('scr-elevator').innerHTML = '<div class="card center"><h2>Elevator mastered! 🛗</h2>'+
+        '<p>×10, ÷10, 10%, 1%, percent→decimal — all one ride now.</p>'+
+        '<button class="btn" id="evHome">Home</button></div>';
+      $('evHome').onclick = renderHome;
+    }, 1200);
+  }
+}
+
+/* ---------------- trick book ---------------- */
+function renderTricks(){
+  let html = '<div class="card"><h2>🪄 Pai\'s Trick Book</h2>'+
+    '<p class="muted">Speed tricks — each one comes with its WHY, because a trick you understand is a trick you keep.</p></div>';
+  for (const t of C.tricks){
+    const unlocked = S.xp >= t.xp;
+    if (!unlocked){
+      html += '<div class="trickcard locked"><h3>'+t.emoji+' ??? </h3><p class="muted">Unlocks at ⭐'+t.xp+' — keep playing!</p></div>';
+      continue;
+    }
+    const tried = S.tricksTried && S.tricksTried[t.id];
+    html += '<div class="trickcard"><h3>'+t.emoji+' '+esc(t.name)+'</h3>';
+    html += '<p>'+esc(t.trick)+'</p>';
+    html += '<div class="why"><b>Why it works:</b> '+esc(t.why)+'</div>';
+    html += tried
+      ? '<p class="muted">Tried ✓ — '+esc(t.try.prompt)+' '+esc(t.try.answer)+'</p>'
+      : '<p><b>Try it:</b> '+esc(t.try.prompt)+'</p>' +
+        t.try.options.map(o=>'<button class="btn opt small" data-trick="'+esc(t.id)+'" data-a="'+esc(o)+'">'+esc(o)+'</button>').join('');
+    html += '</div>';
+  }
+  html += '<button class="btn soft" id="tricksHome">Home</button>';
+  $('scr-tricks').innerHTML = html;
+  show('scr-tricks');
+  document.querySelectorAll('[data-trick]').forEach(btn=>{
+    btn.onclick = ()=>{
+      const t = C.tricks.find(x=>x.id===btn.getAttribute('data-trick'));
+      if (btn.getAttribute('data-a') === t.try.answer){
+        S.tricksTried = S.tricksTried || {};
+        S.tricksTried[t.id] = true;
+        addXp(2); save();
+        say(t.try.say, 'happy');
+        renderTricks();
+      } else {
+        btn.classList.add('wiggle'); setTimeout(()=>btn.classList.remove('wiggle'),400);
+        say(pick(C.enc.tryAgain));
+      }
+    };
+  });
+  say('Tricks are cheat codes you\'ve EARNED — because you know why they work.', 'happy');
+}
+
 /* ---------------- tutor (optional streaming proxy) ---------------- */
 async function askTutor(ctx){
   const url = S.settings.tutorUrl.replace(/\/+$/,'');
@@ -690,11 +821,11 @@ function wireSettings(){
 /* ---------------- boot ---------------- */
 async function boot(){
   try{
-    const files = ['skills','facts','problems','equations','encouragement','rewards'];
+    const files = ['skills','facts','problems','equations','encouragement','rewards','elevator','tricks'];
     const data = await Promise.all(files.map(f=>fetch('./content/'+f+'.json').then(r=>{
       if(!r.ok) throw new Error(f); return r.json();
     })));
-    C = { skills:data[0], facts:data[1], problems:data[2], equations:data[3], enc:data[4], rewards:data[5] };
+    C = { skills:data[0], facts:data[1], problems:data[2], equations:data[3], enc:data[4], rewards:data[5], elevator:data[6], tricks:data[7] };
   } catch(e){
     document.getElementById('app').innerHTML = '<div class="card"><h2>Hmm, couldn\'t load.</h2>'+
       '<p>MathPie needs to be served over http(s) — opening the file directly won\'t work. '+

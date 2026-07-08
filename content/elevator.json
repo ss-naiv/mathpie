@@ -1,0 +1,15 @@
+{
+  "intro": "There's no new math here — the digits NEVER change. Only their seats do. ×10 slides everything one place left; ÷10 slides right. That's all place value is.",
+  "challenges": [
+    { "id": "e1", "prompt": "Make 4.7 become 47", "start": "4.7", "target": "47", "say": "×10 promotes every digit one seat left. Same digits, richer seats." },
+    { "id": "e2", "prompt": "Now send it back: make 47 become 4.7", "start": "47", "target": "4.7", "say": "÷10 slides them right. ×10 and ÷10 are undo-partners." },
+    { "id": "e3", "prompt": "Make 3.6 become 360", "start": "3.6", "target": "360", "say": "Two ×10 hops = ×100. Zeros appear when the digits run out of seats." },
+    { "id": "e4", "prompt": "Find 10% of $84 — that's exactly one ÷10 hop", "start": "84", "target": "8.4", "say": "10% means ÷10. $8.40 — THE tip-and-tax trick, one button." },
+    { "id": "e5", "prompt": "Find 10% of $125", "start": "125", "target": "12.5", "say": "$12.50. No calculator was harmed." },
+    { "id": "e6", "prompt": "A $90 bill — find the 10% tax", "start": "90", "target": "9", "say": "$9 of tax. Double it for a 20% tip: $18. Restaurant math, solved standing up." },
+    { "id": "e7", "prompt": "Find 1% of $300 — two ÷10 hops (that's ÷100)", "start": "300", "target": "3", "say": "1% = ÷100 = two hops. And % literally MEANS ÷100 — same thing!" },
+    { "id": "e8", "prompt": "Turn 62 into 0.62 — this is how 62% becomes a decimal", "start": "62", "target": "0.62", "say": "62% = 62 ÷ 100 = 0.62. Percent-to-decimal is just a two-hop ride." },
+    { "id": "e9", "prompt": "Make 0.5 become 500", "start": "0.5", "target": "500", "say": "Three ×10 hops = ×1000. Watch zeros get born as digits run out." },
+    { "id": "e10", "prompt": "Make 7 become 7000", "start": "7", "target": "7000", "say": "Three hops up. Every hop is ×10 — that's the whole secret of our number system." }
+  ]
+}

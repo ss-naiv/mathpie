@@ -219,6 +219,17 @@ like chess puzzles vs. full games:
 - Calculator discipline falls out for free: one op per rung means she never types a compound
   expression like `(9 + 28/3) × 3/11` — the failure in case-study item 6.
 
+### 4.10 Pai's Trick Book — speed tricks, always with the WHY (P1; built July 2026)
+Curated mental-math tricks (Trachtenberg-adjacent) presented as **unlockable cards** earned at XP
+milestones — tricks as cheat codes you've earned. **Iron rule: no incantations.** Every card ships
+with its "why" (×11 = the number plus its own slid copy, which is why neighbors add; ×9 = ×10 minus
+one copy — the distributive property; ×5 = half then ×10). Rationale: opaque tricks are exactly the
+Kumon failure mode — half-remembered magic that gets misapplied ("10 ÷ 100 = 1 cent"). A trick whose
+mechanism is visible builds intuition *and* speed; a trick memorized as ritual builds anxiety. Each
+card has a one-tap "try it" question. The Decimal Elevator (§4.3, **pulled forward from Phase 2 and
+built**) is the foundation card: ×10/÷10/10%/1%/percent→decimal as pure digit-sliding, implemented
+with exact digit-seat arithmetic (never float math).
+
 ### 4.9 Reward Shelf — kawaii + real-world coupons (retention; design principle 9)
 Cosmetic unlocks (mascot accessories, skins, app icons) plus **parent-configurable real-world
 coupons** ("hug from Dad", "one Miniso trip", "you pick dinner") stored in `content/rewards.json`.

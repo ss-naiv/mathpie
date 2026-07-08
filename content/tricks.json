@@ -1,0 +1,65 @@
+[
+  {
+    "id": "slide10",
+    "name": "The Decimal Slide",
+    "emoji": "🛗",
+    "xp": 0,
+    "trick": "×10 or ÷10 = slide the digits one place past the decimal point. Never compute — just slide.",
+    "why": "Each place in a number is worth 10× the place to its right. So ×10 promotes every digit one seat — the digits don't change, their SEATS do.",
+    "try": { "prompt": "3.6 × 10 = ?", "options": ["36", "3.60", "360"], "answer": "36", "say": "The 3 and 6 kept their order — they just moved one seat up." }
+  },
+  {
+    "id": "tenpct",
+    "name": "The 10% One-Hop",
+    "emoji": "🎯",
+    "xp": 0,
+    "trick": "10% of anything = slide one place right. 10% of $73 → $7.30. Done.",
+    "why": "10% = 10/100 = 1/10 — and dividing by 10 is exactly one slide right. The tip trick is just the decimal slide wearing a percent costume.",
+    "try": { "prompt": "10% of $73 = ?", "options": ["$7.30", "73¢", "$3.70"], "answer": "$7.30", "say": "One hop. This works on every bill you will ever see." }
+  },
+  {
+    "id": "tip20",
+    "name": "The Double-Tax Tip",
+    "emoji": "🍜",
+    "xp": 30,
+    "trick": "20% tip = find 10% (one slide), then double it. On $65: slide → $6.50, double → $13.",
+    "why": "20% is just 10% twice. Two easy moves beat one hard one — every time.",
+    "try": { "prompt": "20% tip on $65 = ?", "options": ["$13", "$6.50", "$26"], "answer": "$13", "say": "Slide to $6.50, double to $13. You're now faster than the adults at the table." }
+  },
+  {
+    "id": "five",
+    "name": "The Half-Then-Ten",
+    "emoji": "✋",
+    "xp": 80,
+    "trick": "×5 = halve the number, then ×10. 48 × 5: half is 24, slide up → 240.",
+    "why": "5 is just 10 ÷ 2. So multiplying by 5 = multiplying by 10 and halving — in whichever order is easier.",
+    "try": { "prompt": "48 × 5 = ?", "options": ["240", "480", "96"], "answer": "240", "say": "Half of 48 is 24, one slide up: 240. No carrying, no sweat." }
+  },
+  {
+    "id": "nine",
+    "name": "The Almost-Ten",
+    "emoji": "🎈",
+    "xp": 140,
+    "trick": "×9 = ×10, then subtract one copy. 47 × 9 = 470 − 47 = 423.",
+    "why": "9 = 10 − 1, so 47 × 9 = 47×10 − 47×1. That's the distributive property — the same one from algebra class — doing your arithmetic for you.",
+    "try": { "prompt": "47 × 9 = ?", "options": ["423", "470", "417"], "answer": "423", "say": "470 minus 47. The distributive property just bought you dessert." }
+  },
+  {
+    "id": "eleven",
+    "name": "The Eleven Spread",
+    "emoji": "🪄",
+    "xp": 220,
+    "trick": "×11: keep the first and last digits, fill the middle with sums of neighbors. 1234 × 11 → 1, 1+2, 2+3, 3+4, 4 → 13574.",
+    "why": "11 = 10 + 1, so N × 11 = N slid one place PLUS N itself. When you add a number to its own slid copy, each digit lands on its neighbor — THAT'S why neighbors add. Not magic: place value.",
+    "try": { "prompt": "35 × 11 = ?", "options": ["385", "355", "3855"], "answer": "385", "say": "3, then 3+5=8, then 5. It's just 350 + 35 in disguise." }
+  },
+  {
+    "id": "doublehalf",
+    "name": "The Even Trade",
+    "emoji": "⚖️",
+    "xp": 320,
+    "trick": "Stuck on a × problem? Double one side, halve the other, repeat until easy: 16 × 25 → 8 × 50 → 4 × 100 = 400.",
+    "why": "Doubling one factor and halving the other is ×2 and ÷2 at once — they cancel, so the answer can't change. You're just trading the problem for an easier twin.",
+    "try": { "prompt": "16 × 25 = ?", "options": ["400", "375", "320"], "answer": "400", "say": "Trade twice and it becomes 4 × 100. The seesaw principle, but for multiplication." }
+  }
+]

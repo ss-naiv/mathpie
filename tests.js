@@ -19,6 +19,8 @@ const equations = load('equations.json');
 const skills = load('skills.json');
 const enc = load('encouragement.json');
 const rewards = load('rewards.json');
+const elevator = load('elevator.json');
+const tricks = load('tricks.json');
 
 // ---------- facts ----------
 for (const f of facts.facts) {
@@ -71,6 +73,7 @@ const eqIds = equations.map(e => e.id);
 check('equations: unique ids', new Set(eqIds).size === eqIds.length);
 for (const e of equations) {
   check(`${e.id}: start state exists`, e.start in e.states);
+  check(`${e.id}: has plan (the strategy WHY)`, typeof e.plan === 'string' && e.plan.length > 20);
   check(`${e.id}: has prove lines`, e.prove && Array.isArray(e.prove.lines) && e.prove.lines.length >= 2);
 
   let hasWin = false;
@@ -125,6 +128,29 @@ check('rewards: coupons exist', rewards.coupons.length >= 3);
 check('rewards: chance sane', rewards.schedule.chance > 0 && rewards.schedule.chance <= 0.5);
 check('rewards: cosmetics sorted by xp',
   rewards.cosmetics.every((c, i, a) => i === 0 || a[i - 1].xp < c.xp));
+
+// ---------- decimal elevator ----------
+// A challenge is valid iff start and target share the same digit core (sliding
+// the decimal point can never change the digit sequence, only add/remove zeros).
+function core(s) { return s.replace('.', '').replace(/^0+/, '').replace(/0+$/, '') || '0'; }
+check('elevator: has intro', typeof elevator.intro === 'string' && elevator.intro.length > 0);
+for (const ch of elevator.challenges) {
+  check(`elevator ${ch.id}: start/target same digit core`, core(ch.start) === core(ch.target),
+    `${ch.start} vs ${ch.target}`);
+  check(`elevator ${ch.id}: start ≠ target`, ch.start !== ch.target);
+  check(`elevator ${ch.id}: has say`, typeof ch.say === 'string' && ch.say.length > 0);
+}
+const evIds = elevator.challenges.map(c => c.id);
+check('elevator: unique ids', new Set(evIds).size === evIds.length);
+
+// ---------- trick book ----------
+for (const t of tricks) {
+  check(`trick ${t.id}: try answer in options`, t.try.options.includes(t.try.answer));
+  check(`trick ${t.id}: has why`, typeof t.why === 'string' && t.why.length > 20);
+  check(`trick ${t.id}: xp is a number`, typeof t.xp === 'number' && t.xp >= 0);
+}
+check('tricks: at least two free at 0 XP', tricks.filter(t => t.xp === 0).length >= 2);
+check('tricks: unique ids', new Set(tricks.map(t => t.id)).size === tricks.length);
 
 // ---------- SRS (Leitner) logic — mirror of the app's implementation ----------
 const INTERVALS = [1, 3, 7, 16, 35];
