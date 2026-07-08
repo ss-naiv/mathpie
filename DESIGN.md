@@ -54,10 +54,12 @@ already taught "X% of Y = (X÷100) × Y" verbally — the app's job is to make i
    avoid burnout. Short and finishable beats long and dreaded.
 8. **Spaced repetition for facts she keeps re-bootstrapping** (5280 ft/mi, ×10 = shift decimal, "%
    means ÷100", "of means ×"). A small SRS deck surfaces these in warm-ups (cure for P1).
+9. Cuteness/kawai factor, customizability (icons, skins, mascots), awards redeemable for quirky things ("hug from Dad", "one trip to Miniso") at somewhat random times or after accomplishments would help with retention
+10. Extensibility hooks built-in as mastery is built or class content changes (Algebra, Geometry etc.) with the emphasis on building intuition and comfort with real world applications. 
 
 ---
 
-## 2. Tech stack & deployment (mirror caltrain-quick exactly)
+## 2. Tech stack & deployment (mirror caltrain-quick as needed/appropriate)
 
 - **Single `index.html`** with inline CSS + JS. No framework, no build step.
 - **Static content** in JSON files (`content/*.json`) loaded at runtime — like `schedule-data.min.json`.
