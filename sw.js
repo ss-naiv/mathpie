@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mathpie-v2';
+const CACHE_NAME = 'mathpie-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -12,7 +12,8 @@ const ASSETS = [
   './content/encouragement.json',
   './content/rewards.json',
   './content/elevator.json',
-  './content/tricks.json'
+  './content/tricks.json',
+  './content/closet.json'
 ];
 
 // Install: cache assets

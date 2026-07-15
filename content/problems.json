@@ -1289,5 +1289,50 @@
       "4 oz pineapple × 1.5."
     ],
     "success": "Scaling a recipe DOWN — same proportion move, smaller pancakes."
+  },
+  {
+    "id": "walk-12",
+    "skill": "rate-time",
+    "theme": "map",
+    "difficulty": 3,
+    "scenario": "You walk at 4 miles per hour. Your friend's house is 1.2 miles away. How many MINUTES will the walk take?",
+    "givens": [
+      { "id": "rate", "label": "speed", "value": 4, "unit": "mph" },
+      { "id": "dist", "label": "distance", "value": 1.2, "unit": "miles" },
+      { "id": "sixty", "label": "min per hour", "value": 60, "unit": "" }
+    ],
+    "ballpark": {
+      "prompt": "Ballpark first: at 4 mph, one mile takes a quarter hour — 15 minutes. So 1.2 miles is about…",
+      "options": ["about 5 min", "about 18 min", "about 45 min"],
+      "answer": "about 18 min",
+      "nudge": "It's a bit MORE than one mile, so a bit more than 15 minutes — not triple it."
+    },
+    "steps": [
+      {
+        "prompt": "“Per” means ÷. Minutes per ONE mile: split the hour across the 4 miles.",
+        "template": ["_", "÷", "_"],
+        "fill": ["sixty", "rate"],
+        "calc": "60/4",
+        "result": 15,
+        "resultLabel": "15 min per mile",
+        "say": "Each mile costs 15 minutes — a QUARTER of an hour. See it? 1/4 and 15 minutes are the same value in different costumes.",
+        "makes": { "id": "permile", "label": "per mile", "value": 15, "unit": "min" }
+      },
+      {
+        "prompt": "Now 1.2 miles of that:",
+        "template": ["_", "×", "_"],
+        "fill": ["permile", "dist"],
+        "calc": "15*1.2",
+        "result": 18,
+        "resultLabel": "18 minutes",
+        "say": "15 × 1.2 = 18. The sneaky part: the .2 is a FIFTH, and a fifth of 15 is 3 — so 15 + 3 = 18. Decimal and fraction, same worker, different uniform."
+      }
+    ],
+    "hints": [
+      "Don't chase 0.1-mile crumbs — get the cost of ONE mile first: 60 minutes ÷ 4 miles.",
+      "15 minutes per mile. (That's 1/4 of an hour — fraction costume!)",
+      "1.2 miles = 1.2 × 15 min. The 0.2 adds a fifth of 15, which is 3."
+    ],
+    "success": "This exact problem stumped the old you. Two chips, two taps, eighteen minutes."
   }
 ]

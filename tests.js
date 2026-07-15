@@ -21,6 +21,7 @@ const enc = load('encouragement.json');
 const rewards = load('rewards.json');
 const elevator = load('elevator.json');
 const tricks = load('tricks.json');
+const closet = load('closet.json');
 
 // ---------- facts ----------
 for (const f of facts.facts) {
@@ -151,6 +152,25 @@ for (const t of tricks) {
 }
 check('tricks: at least two free at 0 XP', tricks.filter(t => t.xp === 0).length >= 2);
 check('tricks: unique ids', new Set(tricks.map(t => t.id)).size === tricks.length);
+
+// ---------- costume closet ----------
+// Mirror of the app's SNAPS table — dial targets must sit on a named fraction snap
+// (within the app's 1.5 tolerance) so the fraction costume is visible at the target.
+const SNAP_PCTS = [0, 10, 12.5, 20, 25, 30, 33.3, 40, 45, 50, 60, 62.5, 66.7, 70, 75, 80, 90, 100];
+check('closet: has intro', typeof closet.intro === 'string' && closet.intro.length > 0);
+for (const ch of closet.challenges) {
+  check(`closet ${ch.id}: has say`, typeof ch.say === 'string' && ch.say.length > 0);
+  if (ch.type === 'dial') {
+    check(`closet ${ch.id}: target in range`, ch.target > 0 && ch.target <= 100);
+    check(`closet ${ch.id}: target on a fraction snap`,
+      SNAP_PCTS.some(p => Math.abs(p - ch.target) <= 1.5), String(ch.target));
+  } else {
+    check(`closet ${ch.id}: answer in options`, ch.options.includes(ch.answer));
+  }
+}
+check('closet: unique ids', new Set(closet.challenges.map(c => c.id)).size === closet.challenges.length);
+check('closet: has both dial and match types',
+  closet.challenges.some(c => c.type === 'dial') && closet.challenges.some(c => c.type === 'match'));
 
 // ---------- SRS (Leitner) logic — mirror of the app's implementation ----------
 const INTERVALS = [1, 3, 7, 16, 35];

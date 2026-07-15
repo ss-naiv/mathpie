@@ -5,6 +5,6 @@
   { "id": "move-gym", "name": "Equation Move Gym", "emoji": "🏋️", "unlocked": true, "sub": "Pick the right move, x gets free" },
   { "id": "decimal-elevator", "name": "Decimal Elevator", "emoji": "🛗", "unlocked": true, "sub": "Slide digits — ×10, ÷10 and 10% in one move" },
   { "id": "trick-book", "name": "Pai's Trick Book", "emoji": "🪄", "unlocked": true, "sub": "Speed tricks — always with the WHY" },
-  { "id": "fraction-costumes", "name": "Costume Closet", "emoji": "🎭", "unlocked": false },
+  { "id": "fraction-costumes", "name": "Costume Closet", "emoji": "🎭", "unlocked": true, "sub": "Fraction ⇄ decimal ⇄ % — one value, many outfits" },
   { "id": "y-do-we-care", "name": "Y Do We Care Island", "emoji": "🏝️", "unlocked": false }
 ]

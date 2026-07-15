@@ -27,6 +27,15 @@
     "try": { "prompt": "20% tip on $65 = ?", "options": ["$13", "$6.50", "$26"], "answer": "$13", "say": "Slide to $6.50, double to $13. You're now faster than the adults at the table." }
   },
   {
+    "id": "frac-div",
+    "name": "The Costume Rule",
+    "emoji": "🎭",
+    "xp": 50,
+    "trick": "Every fraction is a division in costume: 3/4 = 3 ÷ 4 = 0.75. And “of” means ×. So 3/4 of 20 = 20 × 3 ÷ 4 = 15.",
+    "why": "The fraction bar and the ÷ sign are the SAME symbol drawn differently. That's why fractions, decimals and percents convert into each other — they were one number all along, just changing outfits.",
+    "try": { "prompt": "3/4 of 40 = ?", "options": ["30", "34", "10"], "answer": "30", "say": "40 × 3 ÷ 4 = 120 ÷ 4 = 30. Costume off, answer out." }
+  },
+  {
     "id": "five",
     "name": "The Half-Then-Ten",
     "emoji": "✋",

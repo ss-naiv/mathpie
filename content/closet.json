@@ -1,0 +1,15 @@
+{
+  "intro": "One value, five costumes: fraction, decimal, percent, “out of”, chance. Drag the dial and watch them all change together — because they're all the SAME thing.",
+  "challenges": [
+    { "type": "dial", "id": "c1", "prompt": "Dial the pie to 3/4", "target": 75, "say": "3/4 = 0.75 = 75% = 15 out of 20. One value, four outfits — all on screen at once." },
+    { "type": "match", "id": "c2", "prompt": "Which is the SAME as 0.25?", "options": ["1/4", "1/2", "2/5"], "answer": "1/4", "say": "0.25 = 25% = 1/4. Quarters, everywhere you look." },
+    { "type": "dial", "id": "c3", "prompt": "Dial to 0.4", "target": 40, "say": "0.4 = 2/5 = 40% = 8 slices out of 20." },
+    { "type": "match", "id": "c4", "prompt": "3/4 dressed as a percent is…", "options": ["75%", "34%", "0.75%"], "answer": "75%", "say": "The bar means divide: 3 ÷ 4 = 0.75 → 75%." },
+    { "type": "dial", "id": "c5", "prompt": "Dial to 30%", "target": 30, "say": "30% = 0.30 = 3/10. Three costumes, one closet." },
+    { "type": "match", "id": "c6", "prompt": "“1 out of 2” is the same as…", "options": ["50%", "12%", "1.2"], "answer": "50%", "say": "1 out of 2 = 1/2 = 0.5 = 50%. Coin-flip odds." },
+    { "type": "dial", "id": "c7", "prompt": "Dial to 9 out of 20 slices", "target": 45, "say": "9/20 = 45% = 0.45. “Out of” is just a fraction saying its name out loud." },
+    { "type": "match", "id": "c8", "prompt": "A 25% CHANCE of rain means…", "options": ["on 1 out of 4 days like this, it rains", "it rains for 25 minutes", "it definitely rains"], "answer": "on 1 out of 4 days like this, it rains", "say": "Probability is a fraction that talks about the future. 25% = 1/4 of the time." },
+    { "type": "dial", "id": "c9", "prompt": "Dial to 2/3 — careful, it's not a tidy percent!", "target": 66.7, "say": "2/3 = 0.666… ≈ 67%. Some fractions never land on a neat decimal. They're still perfectly good numbers." },
+    { "type": "match", "id": "c10", "prompt": "“3/4 of 20” unpacked into plain math is…", "options": ["20 × 3 ÷ 4", "20 + 3 ÷ 4", "3 ÷ (4 × 20)"], "answer": "20 × 3 ÷ 4", "say": "A fraction is an OPERATION in costume: the bar means ÷, and “of” means ×. So 20 × 3 ÷ 4 = 15." }
+  ]
+}

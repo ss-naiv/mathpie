@@ -35,7 +35,13 @@
     { "id": "drt-quick", "front": "A car goes 60 mph for 2 hours. How far?", "choices": ["120 miles", "30 miles", "62 miles"], "answer": "120 miles" },
     { "id": "sub-neg", "front": "5 − (−3) is the same as…", "choices": ["5 + 3", "5 − 3", "−15"], "answer": "5 + 3" },
     { "id": "order-ops", "front": "In 30 − 6 ÷ 2, what happens FIRST?", "choices": ["6 ÷ 2", "30 − 6", "whichever is leftmost"], "answer": "6 ÷ 2" },
-    { "id": "proportional-graph", "front": "A proportional relationship graphs as…", "choices": ["a straight line through (0, 0)", "any straight line", "a smiley curve"], "answer": "a straight line through (0, 0)" }
+    { "id": "proportional-graph", "front": "A proportional relationship graphs as…", "choices": ["a straight line through (0, 0)", "any straight line", "a smiley curve"], "answer": "a straight line through (0, 0)" },
+    { "id": "frac-is-division", "front": "The bar in 3/4 secretly means…", "choices": ["3 ÷ 4", "3 × 4", "3 − 4"], "answer": "3 ÷ 4" },
+    { "id": "frac-of-x", "front": "“3/4 of X” unpacked into plain math is…", "choices": ["X × 3 ÷ 4", "X + 3/4", "X ÷ 3 × 4"], "answer": "X × 3 ÷ 4" },
+    { "id": "per-means", "front": "“per” (like miles PER hour) means…", "choices": ["÷ (divide)", "× (multiply)", "+ (add)"], "answer": "÷ (divide)" },
+    { "id": "mile-at-4mph", "front": "Walking at 4 mph, ONE mile takes…", "choices": ["1/4 hour (15 min)", "4 hours", "40 minutes"], "answer": "1/4 hour (15 min)" },
+    { "id": "decimal-fifth", "front": "The .2 in 1.2 is which fraction?", "choices": ["1/5", "1/2", "2/1"], "answer": "1/5" },
+    { "id": "point-75", "front": "0.75 in its fraction costume is…", "choices": ["3/4", "7/5", "1/75"], "answer": "3/4" }
   ],
   "ballparks": [
     { "prompt": "Ballpark it: 10% of $50 is about…", "options": ["50¢", "$5", "$50"], "answer": "$5", "nudge": "10% = one decimal step left: $50 → $5.0" },
