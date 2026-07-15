@@ -873,7 +873,16 @@ function renderCloset(){
         dial.value = ch.target; update(ch.target);
         dial.disabled = true;
         say(ch.say, 'happy');
-        setTimeout(nextCloset, 1600);
+        // Let the four-costumes-agreeing moment sink in: no auto-advance —
+        // she moves on when she's ready.
+        document.querySelectorAll('.costume-row').forEach((r,i)=>{
+          setTimeout(()=>{ r.style.animation = 'pop .4s'; }, i*180);
+        });
+        const next = document.createElement('button');
+        next.className = 'btn good';
+        next.textContent = 'Got it — next ✨';
+        next.onclick = nextCloset;
+        document.querySelector('#scr-closet .card').appendChild(next);
       } else {
         say(p < ch.target ? 'Warmer going up! Keep dialing.' : 'A bit too far — ease it back down.');
       }
